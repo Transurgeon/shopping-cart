@@ -27,44 +27,44 @@
 				<div></div>
 				<div class="row">
 					<div class="col-md-6 form-group">
+						<label for="first_name">Concordia ID</label> <input type="text"
+							name="concordiaID" class="form-control" id="concordiaID" required>
+					</div>
+					<div class="col-md-6 form-group">
 						<label for="first_name">Name</label> <input type="text"
 							name="username" class="form-control" id="first_name"
 							name="first_name" required>
 					</div>
 					<div class="col-md-6 form-group">
 						<label for="last_name">Email</label> <input type="email"
-							name="email" class="form-control" id="last_name" name="last_name"
-							required>
+							name="email" class="form-control" id="last_name" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="last_name">Address</label>
-					<textarea name="address" class="form-control" id="last_name"
-						name="last_name" required></textarea>
+					<textarea name="address" class="form-control" id="last_name" required>
+					</textarea>
 				</div>
 				<div class="row">
 					<div class="col-md-6 form-group">
 						<label for="last_name">Mobile</label> <input type="number"
-							name="mobile" class="form-control" id="last_name"
-							name="last_name" required>
+							name="mobile" class="form-control" id="last_name" required>
 					</div>
 					<div class="col-md-6 form-group">
 						<label for="last_name">Pin Code</label> <input type="number"
-							name="pincode" class="form-control" id="last_name"
-							name="last_name" required>
+							name="pincode" class="form-control" id="last_name" required>
 					</div>
 
 				</div>
 				<div class="row">
 					<div class="col-md-6 form-group">
 						<label for="last_name">Password</label> <input type="password"
-							name="password" class="form-control" id="last_name"
-							name="last_name" required>
+							name="password" class="form-control" id="last_name" required>
 					</div>
 					<div class="col-md-6 form-group">
 						<label for="last_name">Confirm Password</label> <input
 							type="password" name="confirmPassword" class="form-control"
-							id="last_name" name="last_name" required>
+							id="last_name" required>
 					</div>
 				</div>
 				<div class="row text-center">
