@@ -14,10 +14,10 @@ import com.shashi.utility.MailMessage;
 public class UserServiceImpl implements UserService {
 
 	@Override
-	public String registerUser(String userName, Long mobileNo, String emailId, String address, int pinCode,
+	public String registerUser(String concordiaID, String userName, Long mobileNo, String emailId, String address, int pinCode,
 			String password) {
 
-		UserBean user = new UserBean(userName, mobileNo, emailId, address, pinCode, password);
+		UserBean user = new UserBean(concordiaID, userName, mobileNo, emailId, address, pinCode, password);
 
 		String status = registerUser(user);
 
@@ -151,6 +151,7 @@ public class UserServiceImpl implements UserService {
 
 			if (rs.next()) {
 				user = new UserBean();
+				user.setConcordiaID(rs.getString("concordiaID"));
 				user.setName(rs.getString("name"));
 				user.setMobile(rs.getLong("mobile"));
 				user.setEmail(rs.getString("email"));

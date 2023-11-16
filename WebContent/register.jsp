@@ -42,29 +42,27 @@
 				</div>
 				<div class="form-group">
 					<label for="last_name">Address</label>
-					<textarea name="address" class="form-control" id="last_name" required>
+					<textarea name="address" class="form-control" required>
 					</textarea>
 				</div>
 				<div class="row">
 					<div class="col-md-6 form-group">
 						<label for="last_name">Mobile</label> <input type="number"
-							name="mobile" class="form-control" id="last_name" required>
+							name="mobile" class="form-control" required>
 					</div>
 					<div class="col-md-6 form-group">
 						<label for="last_name">Pin Code</label> <input type="number"
-							name="pincode" class="form-control" id="last_name" required>
+							name="pincode" class="form-control" required>
 					</div>
-
 				</div>
 				<div class="row">
 					<div class="col-md-6 form-group">
 						<label for="last_name">Password</label> <input type="password"
-							name="password" class="form-control" id="last_name" required>
+							name="password" class="form-control" required>
 					</div>
 					<div class="col-md-6 form-group">
 						<label for="last_name">Confirm Password</label> <input
-							type="password" name="confirmPassword" class="form-control"
-							id="last_name" required>
+							type="password" name="confirmPassword" class="form-control" required>
 					</div>
 				</div>
 				<div class="row text-center">

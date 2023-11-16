@@ -23,6 +23,7 @@ public class RegisterSrv extends HttpServlet {
 			throws ServletException, IOException {
 
 		response.setContentType("text/html");
+		String concordiaID = request.getParameter("concordiaID");
 		String userName = request.getParameter("username");
 		Long mobileNo = Long.parseLong(request.getParameter("mobile"));
 		String emailId = request.getParameter("email");
@@ -32,10 +33,8 @@ public class RegisterSrv extends HttpServlet {
 		String confirmPassword = request.getParameter("confirmPassword");
 		String status = "";
 		if (password != null && password.equals(confirmPassword)) {
-			UserBean user = new UserBean(userName, mobileNo, emailId, address, pinCode, password);
-
+			UserBean user = new UserBean(concordiaID, userName, mobileNo, emailId, address, pinCode, password);
 			UserServiceImpl dao = new UserServiceImpl();
-
 			status = dao.registerUser(user);
 		} else {
 			status = "Password not matching!";

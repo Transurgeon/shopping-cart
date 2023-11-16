@@ -8,8 +8,9 @@ public class UserBean implements Serializable {
 	public UserBean() {
 	}
 
-	public UserBean(String userName, Long mobileNo, String emailId, String address, int pinCode, String password) {
+	public UserBean(String concordiaID, String userName, Long mobileNo, String emailId, String address, int pinCode, String password) {
 		super();
+		this.concordiaID = concordiaID;
 		this.name = userName;
 		this.mobile = mobileNo;
 		this.email = emailId;
@@ -18,12 +19,17 @@ public class UserBean implements Serializable {
 		this.password = password;
 	}
 
+	private String concordiaID;
 	private String name;
 	private Long mobile;
 	private String email;
 	private String address;
 	private int pinCode;
 	private String password;
+
+	public String getConcordiaID() {return concordiaID;}
+
+	public void setConcordiaID(String concordiaID) {this.concordiaID = concordiaID;}
 
 	public String getName() {
 		return name;

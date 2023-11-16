@@ -9,7 +9,7 @@ public interface UserService {
 	 * private String address; private int pinCode; private String password;
 	 */
 
-	public String registerUser(String userName, Long mobileNo, String emailId, String address, int pinCode,
+	public String registerUser(String concordiaID, String userName, Long mobileNo, String emailId, String address, int pinCode,
 			String password);
 
 	public String registerUser(UserBean user);
