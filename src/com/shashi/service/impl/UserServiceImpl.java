@@ -22,15 +22,26 @@ public class UserServiceImpl implements UserService {
 
 		StudentBean user = new StudentBean (userName, mobileNo, emailId, address, pinCode, password, firstName, lastName, concordiaId);
 
-		String status = registerStudentUser(user);
-
-		return status;
+        return registerStudentUser(user);
 	}
 
 	@Override
 	public String registerStudentUser(StudentBean user) {
 
 		String status = "User Registration Failed!";
+		boolean isValidCid = isValidConcordiaID(user.getConcordiaId());
+
+		if (isValidCid) {
+			status = "Your Concordia ID needs to be an 8 digit number";
+			return status;
+		}
+
+		boolean isValidEmail = isValidConcordiaEmail(user.getEmail());
+
+		if (isValidEmail) {
+			status = "Your email is not a valid Concordia email";
+			return status;
+		}
 
 		boolean isRegtd = isRegistered(user.getEmail(), user.getConcordiaId());
 
@@ -238,5 +249,21 @@ public class UserServiceImpl implements UserService {
 
 		return userAddr;
 	}
+
+	@Override
+	public boolean isValidConcordiaID(String concordiaID) {
+		// Check if the string is exactly 8 characters long
+		if (concordiaID.length() == 8) {
+			// Check if the string is a digit and starts with 4
+            return concordiaID.matches("\\d+") && concordiaID.startsWith("4");
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isValidConcordiaEmail(String emailId) {
+		// Check if the emailId ends with either "@concordia.ca" or "@live.concordia.ca"
+        return emailId.endsWith("@concordia.ca") || emailId.endsWith("@live.concordia.ca");
+    }
 
 }

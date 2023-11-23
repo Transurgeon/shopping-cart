@@ -25,4 +25,8 @@ public interface UserService {
 
 	public String getUserAddr(String userId);
 
+	public boolean isValidConcordiaID(String concordiaID);
+
+	public boolean isValidConcordiaEmail(String emailId);
+
 }
