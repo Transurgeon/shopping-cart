@@ -31,24 +31,22 @@ public class UserServiceImpl implements UserService {
 		String status = "User Registration Failed!";
 		boolean isValidCid = isValidConcordiaID(user.getConcordiaId());
 
-		if (isValidCid) {
-			status = "Your Concordia ID needs to be an 8 digit number";
-			return status;
+		if (!isValidCid) {
+			return "Your Concordia ID needs to be an 8 digit number";
 		}
 
 		boolean isValidEmail = isValidConcordiaEmail(user.getEmail());
 
-		if (isValidEmail) {
-			status = "Your email is not a valid Concordia email";
-			return status;
+		if (!isValidEmail) {
+			return "Your email is not a valid Concordia email";
 		}
 
 		boolean isRegtd = isRegistered(user.getEmail(), user.getConcordiaId());
 
 		if (isRegtd) {
-			status = "Email Id Already Registered!";
-			return status;
+			return "Email Id Already Registered!";
 		}
+
 		Connection conn = DBUtil.provideConnection();
 		PreparedStatement ps = null;
 		if (conn != null) {

@@ -1,21 +1,15 @@
 package com.shashi.srv;
 
 import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.shashi.beans.StudentBean;
-import com.shashi.beans.UserBean;
 import com.shashi.service.impl.UserServiceImpl;
 
-/**
- * Servlet implementation class RegisterSrv
- */
 @WebServlet("/RegisterSrv")
 public class RegisterSrv extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -36,17 +30,16 @@ public class RegisterSrv extends HttpServlet {
 		String confirmPassword = request.getParameter("confirmPassword");
 		String status = "";
 		if (password != null && password.equals(confirmPassword)) {
-			StudentBean user = new StudentBean(userName, mobileNo, emailId, address, pinCode, password,firstName,lastName,concordiaId );
+			StudentBean user = new StudentBean(userName, mobileNo, emailId, address, pinCode,
+					                           password, firstName, lastName, concordiaId);
 
 			UserServiceImpl dao = new UserServiceImpl();
-
 			status = dao.registerStudentUser(user);
+
 		} else {
 			status = "Password not matching!";
 		}
-
 		RequestDispatcher rd = request.getRequestDispatcher("register.jsp?message=" + status);
-
 		rd.forward(request, response);
 	}
 
@@ -55,5 +48,4 @@ public class RegisterSrv extends HttpServlet {
 
 		doGet(request, response);
 	}
-
 }
