@@ -24,7 +24,7 @@
 	String password = (String) session.getAttribute("password");
 	String userType = (String) session.getAttribute("usertype");
 
-	if (userType == null || !userType.equals("admin")) {
+	if (userType == null || !userType.equals("company")) {
 
 		response.sendRedirect("login.jsp?message=Access Denied, Login as admin!!");
 

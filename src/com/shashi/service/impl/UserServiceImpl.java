@@ -324,4 +324,39 @@ public class UserServiceImpl implements UserService {
 		return flag;
 	}
 
+
+
+	@Override
+	public String isValidCredentialSeller(String emailId, String password, String companyName) {
+		String status = "Login Denied! Incorrect Username or Password";
+
+		Connection con = DBUtil.provideConnection();
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+
+			ps = con.prepareStatement("select * from seller where email=? and password=? and companyName=?");
+
+			ps.setString(1, emailId);
+			ps.setString(2, password);
+			ps.setString(3, companyName);
+
+			rs = ps.executeQuery();
+
+			if (rs.next())
+				status = "valid";
+
+		} catch (SQLException e) {
+			status = "Error: " + e.getMessage();
+			e.printStackTrace();
+		}
+
+		DBUtil.closeConnection(con);
+		DBUtil.closeConnection(ps);
+		DBUtil.closeConnection(rs);
+		return status;
+	}
+
 }
