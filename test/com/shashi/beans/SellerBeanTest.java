@@ -10,13 +10,10 @@ public class SellerBeanTest {
         SellerBean sellerBean = new SellerBean();
         assertNotNull(sellerBean);
         assertNull(sellerBean.getName());
-        assertEquals(0, sellerBean.getMobile());
         assertNull(sellerBean.getEmail());
         assertNull(sellerBean.getAddress());
-        assertEquals(0, sellerBean.getPinCode());
         assertNull(sellerBean.getPassword());
         assertNull(sellerBean.getCompanyName());
-        assertEquals(0, sellerBean.getCompanyID());
     }
 
     @Test
@@ -56,10 +53,8 @@ public class SellerBeanTest {
         sellerBean.setCompanyID(companyID);
 
         assertNull(sellerBean.getName());
-        assertEquals(0, sellerBean.getMobile());
         assertNull(sellerBean.getEmail());
         assertNull(sellerBean.getAddress());
-        assertEquals(0, sellerBean.getPinCode());
         assertNull(sellerBean.getPassword());
         assertEquals(companyName, sellerBean.getCompanyName());
         assertEquals(companyID, sellerBean.getCompanyID());

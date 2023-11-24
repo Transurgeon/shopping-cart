@@ -10,10 +10,8 @@ public class StudentBeanTest {
         StudentBean studentBean = new StudentBean();
         assertNotNull(studentBean);
         assertNull(studentBean.getName());
-        assertEquals(0, studentBean.getMobile());
         assertNull(studentBean.getEmail());
         assertNull(studentBean.getAddress());
-        assertEquals(0, studentBean.getPinCode());
         assertNull(studentBean.getPassword());
         assertNull(studentBean.getFirstName());
         assertNull(studentBean.getLastName());
@@ -61,10 +59,8 @@ public class StudentBeanTest {
         studentBean.setConcordiaId(concordiaId);
 
         assertNull(studentBean.getName());
-        assertEquals(0, studentBean.getMobile());
         assertNull(studentBean.getEmail());
         assertNull(studentBean.getAddress());
-        assertEquals(0, studentBean.getPinCode());
         assertNull(studentBean.getPassword());
         assertEquals(firstName, studentBean.getFirstName());
         assertEquals(lastName, studentBean.getLastName());

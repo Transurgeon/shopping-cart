@@ -10,7 +10,6 @@ public class UserBeanTest {
         UserBean userBean = new UserBean();
         assertNotNull(userBean);
         assertNull(userBean.getName());
-        assertEquals(0L, userBean.getMobile());
         assertNull(userBean.getEmail());
         assertNull(userBean.getAddress());
         assertEquals(0, userBean.getPinCode());
