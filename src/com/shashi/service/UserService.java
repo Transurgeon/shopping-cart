@@ -22,9 +22,7 @@ public interface UserService {
 	
 	public boolean isRegisteredSeller(String emailId, String companyName);
 
-	public String isValidCredential(String emailId, String password, String concordiaId);
-	
-	public String isValidCredentialSeller(String emailId, String password, String companyName);
+	public String isValidCredential(String emailId, String password, String specificId, String userType);
 
 	public StudentBean getStudentDetails(String emailId, String password);
 

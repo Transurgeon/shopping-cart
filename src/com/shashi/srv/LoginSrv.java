@@ -40,7 +40,7 @@ public class LoginSrv extends HttpServlet {
 
 			UserServiceImpl dao = new UserServiceImpl();
 			
-			status = dao.isValidCredentialSeller(userName,password,companyName);
+			status = dao.isValidCredential(userName,password,companyName, userType);
 			if (status.equalsIgnoreCase("valid")) {
 				// valid
 
@@ -64,14 +64,13 @@ public class LoginSrv extends HttpServlet {
 
 		} else if(userType.equals("student")){ // Login as student
 
-			String userName = request.getParameter("email");
-			String companyName = request.getParameter("companyName");
+			String userName = request.getParameter("username");
 			String password = request.getParameter("password");
 			String concordiaId = request.getParameter("concordiaId");
 
 			UserServiceImpl udao = new UserServiceImpl();
 
-			status = udao.isValidCredential(userName, password, concordiaId);
+			status = udao.isValidCredential(userName, password, concordiaId, userType);
 
 			if (status.equalsIgnoreCase("valid")) {
 				// valid user

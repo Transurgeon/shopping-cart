@@ -112,31 +112,56 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String isValidCredential(String emailId, String password, String concordiaId) {
+	public String isValidCredential(String emailId, String password, String specificId, String userType) {
+		
+		
 		String status = "Login Denied! Incorrect Username or Password";
 
 		Connection con = DBUtil.provideConnection();
 
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		
+		if(userType.equalsIgnoreCase("student")) {
+			try {
 
-		try {
+				ps = con.prepareStatement("select * from student where email=? and password=? and concordiaId=?");
 
-			ps = con.prepareStatement("select * from student where email=? and password=? and concordiaId=?");
+				ps.setString(1, emailId);
+				ps.setString(2, password);
+				ps.setString(3, specificId);
 
-			ps.setString(1, emailId);
-			ps.setString(2, password);
-			ps.setString(3, concordiaId);
+				rs = ps.executeQuery();
 
-			rs = ps.executeQuery();
+				if (rs.next())
+					status = "valid";
 
-			if (rs.next())
-				status = "valid";
-
-		} catch (SQLException e) {
-			status = "Error: " + e.getMessage();
-			e.printStackTrace();
+			} catch (SQLException e) {
+				status = "Error: " + e.getMessage();
+				e.printStackTrace();
+			}
 		}
+		else if(userType.equalsIgnoreCase("company")) {
+			try {
+
+				ps = con.prepareStatement("select * from seller where email=? and password=? and companyName=?");
+
+				ps.setString(1, emailId);
+				ps.setString(2, password);
+				ps.setString(3, specificId);
+
+				rs = ps.executeQuery();
+
+				if (rs.next())
+					status = "valid";
+
+			} catch (SQLException e) {
+				status = "Error: " + e.getMessage();
+				e.printStackTrace();
+			}
+		}
+
+		
 
 		DBUtil.closeConnection(con);
 		DBUtil.closeConnection(ps);
@@ -326,37 +351,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-	@Override
-	public String isValidCredentialSeller(String emailId, String password, String companyName) {
-		String status = "Login Denied! Incorrect Username or Password";
-
-		Connection con = DBUtil.provideConnection();
-
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		try {
-
-			ps = con.prepareStatement("select * from seller where email=? and password=? and companyName=?");
-
-			ps.setString(1, emailId);
-			ps.setString(2, password);
-			ps.setString(3, companyName);
-
-			rs = ps.executeQuery();
-
-			if (rs.next())
-				status = "valid";
-
-		} catch (SQLException e) {
-			status = "Error: " + e.getMessage();
-			e.printStackTrace();
-		}
-
-		DBUtil.closeConnection(con);
-		DBUtil.closeConnection(ps);
-		DBUtil.closeConnection(rs);
-		return status;
-	}
+	
+	
 
 }

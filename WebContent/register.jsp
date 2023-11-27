@@ -203,9 +203,6 @@
 				} else if(selectedType == 'student'){
 					$('#companyFields').hide();
 					$('#studentFields').show();
-				}else {
-					$('#companyFields').hide();
-					$('#studentFields').hide();
 				}
 			});
 		});
