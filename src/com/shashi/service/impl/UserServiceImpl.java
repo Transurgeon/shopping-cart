@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.shashi.beans.SellerBean;
 import com.shashi.beans.StudentBean;
 import com.shashi.beans.UserBean;
 import com.shashi.constants.IStudentConstant;
@@ -24,6 +25,8 @@ public class UserServiceImpl implements UserService {
 
         return registerStudentUser(user);
 	}
+	
+	
 
 	@Override
 	public String registerStudentUser(StudentBean user) {
@@ -118,31 +121,56 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String isValidCredential(String emailId, String password, String concordiaId) {
+	public String isValidCredential(String emailId, String password, String specificId, String userType) {
+		
+		
 		String status = "Login Denied! Incorrect Username or Password";
 
 		Connection con = DBUtil.provideConnection();
 
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		
+		if(userType.equalsIgnoreCase("student")) {
+			try {
 
-		try {
+				ps = con.prepareStatement("select * from student where email=? and password=? and concordiaId=?");
 
-			ps = con.prepareStatement("select * from student where email=? and password=? and concordiaId=?");
+				ps.setString(1, emailId);
+				ps.setString(2, password);
+				ps.setString(3, specificId);
 
-			ps.setString(1, emailId);
-			ps.setString(2, password);
-			ps.setString(3, concordiaId);
+				rs = ps.executeQuery();
 
-			rs = ps.executeQuery();
+				if (rs.next())
+					status = "valid";
 
-			if (rs.next())
-				status = "valid";
-
-		} catch (SQLException e) {
-			status = "Error: " + e.getMessage();
-			e.printStackTrace();
+			} catch (SQLException e) {
+				status = "Error: " + e.getMessage();
+				e.printStackTrace();
+			}
 		}
+		else if(userType.equalsIgnoreCase("company")) {
+			try {
+
+				ps = con.prepareStatement("select * from seller where email=? and password=? and companyName=?");
+
+				ps.setString(1, emailId);
+				ps.setString(2, password);
+				ps.setString(3, specificId);
+
+				rs = ps.executeQuery();
+
+				if (rs.next())
+					status = "valid";
+
+			} catch (SQLException e) {
+				status = "Error: " + e.getMessage();
+				e.printStackTrace();
+			}
+		}
+
+		
 
 		DBUtil.closeConnection(con);
 		DBUtil.closeConnection(ps);
@@ -248,6 +276,92 @@ public class UserServiceImpl implements UserService {
 		return userAddr;
 	}
 
+
+
+
+	@Override
+	public String registerSellerUser(SellerBean user) {
+		String status = "Company Registration Failed!";
+
+		boolean isRegtd = isRegisteredSeller(user.getEmail(), user.getCompanyName());
+
+		if (isRegtd) {
+			status = "Email Id or Company Already Registered!";
+			return status;
+		}
+		Connection conn = DBUtil.provideConnection();
+		PreparedStatement ps = null;
+		if (conn != null) {
+			System.out.println("Connected Successfully!");
+		}
+
+		try {
+
+			ps = conn.prepareStatement("insert into " + "seller" + " values(?,?,?,?,?,?,?)");
+
+			ps.setString(1, user.getEmail());
+			ps.setString(2, user.getName());
+			ps.setLong(3, user.getMobile());
+			ps.setString(4, user.getAddress());
+			ps.setInt(5, user.getPinCode());
+			ps.setString(6, user.getPassword());
+			ps.setString(7, user.getCompanyName());
+
+			int k = ps.executeUpdate();
+
+			if (k > 0) {
+				status = "Company Registered Successfully!";
+				MailMessage.registrationSuccess(user.getEmail(), user.getName().split(" ")[0]);
+			}
+
+		} catch (SQLException e) {
+			status = "Error: " + e.getMessage();
+			e.printStackTrace();
+		}
+
+		DBUtil.closeConnection(ps);
+		DBUtil.closeConnection(ps);
+
+		return status;
+	}
+
+
+
+	@Override
+	public boolean isRegisteredSeller(String emailId, String companyName) {
+		boolean flag = false;
+
+		Connection con = DBUtil.provideConnection();
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			ps = con.prepareStatement("select * from seller where email=? or companyName=?");
+
+			ps.setString(1, emailId);
+			ps.setString(2, companyName);
+
+			rs = ps.executeQuery();
+
+			if (rs.next())
+				flag = true;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		DBUtil.closeConnection(con);
+		DBUtil.closeConnection(ps);
+		DBUtil.closeConnection(rs);
+
+		return flag;
+	}
+
+
+
+
 	@Override
 	public boolean isValidConcordiaID(String concordiaID) {
 		// Check if the string is exactly 8 characters long
@@ -263,5 +377,6 @@ public class UserServiceImpl implements UserService {
 		// Check if the emailId ends with either "@concordia.ca" or "@live.concordia.ca"
         return emailId.endsWith("@concordia.ca") || emailId.endsWith("@live.concordia.ca");
     }
+
 
 }

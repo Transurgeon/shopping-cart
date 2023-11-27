@@ -28,17 +28,20 @@ public class LoginSrv extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String userName = request.getParameter("username");
-		String password = request.getParameter("password");
-		String userType = request.getParameter("usertype");
-		String concordiaId = request.getParameter("concordiaId");
+		String userType = request.getParameter("userType");
 		response.setContentType("text/html");
 
 		String status = "Login Denied! Invalid Username or password.";
 
-		if (userType.equals("admin")) { // Login as Admin
+		if (userType.equals("company")) {
+			String userName = request.getParameter("username");
+			String companyName = request.getParameter("companyName");
+			String password = request.getParameter("password");// Login as Admin
 
-			if (password.equals("admin") && userName.equals("admin@gmail.com")) {
+			UserServiceImpl dao = new UserServiceImpl();
+			
+			status = dao.isValidCredential(userName,password,companyName, userType);
+			if (status.equalsIgnoreCase("valid")) {
 				// valid
 
 				RequestDispatcher rd = request.getRequestDispatcher("adminViewProduct.jsp");
@@ -47,6 +50,7 @@ public class LoginSrv extends HttpServlet {
 
 				session.setAttribute("username", userName);
 				session.setAttribute("password", password);
+				session.setAttribute("companyName", companyName);
 				session.setAttribute("usertype", userType);
 				
 
@@ -58,11 +62,15 @@ public class LoginSrv extends HttpServlet {
 				rd.include(request, response);
 			}
 
-		} else { // Login as student
+		} else if(userType.equals("student")){ // Login as student
+
+			String userName = request.getParameter("username");
+			String password = request.getParameter("password");
+			String concordiaId = request.getParameter("concordiaId");
 
 			UserServiceImpl udao = new UserServiceImpl();
 
-			status = udao.isValidCredential(userName, password, concordiaId);
+			status = udao.isValidCredential(userName, password, concordiaId, userType);
 
 			if (status.equalsIgnoreCase("valid")) {
 				// valid user

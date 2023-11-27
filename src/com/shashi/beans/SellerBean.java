@@ -8,7 +8,6 @@ import java.io.Serializable;
 public class SellerBean extends UserBean implements Serializable{
 	
 	private String companyName;
-	private int companyID;
 	
 	//the list are going to be in seller service
 
@@ -16,7 +15,7 @@ public class SellerBean extends UserBean implements Serializable{
 	}
 
 	public SellerBean(String userName, Long mobileNo, String emailId, String address, 
-			int pinCode, String password, String companyName, int companyID) {
+			int pinCode, String password, String companyName) {
 		super();
 		this.name = userName;
 		this.mobile = mobileNo;
@@ -25,7 +24,6 @@ public class SellerBean extends UserBean implements Serializable{
 		this.pinCode = pinCode;
 		this.password = password;
 		this.companyName = companyName;
-		this.companyID = companyID;
 	}
 
 	public String getCompanyName() {
@@ -36,13 +34,6 @@ public class SellerBean extends UserBean implements Serializable{
 		this.companyName = companyName;
 	}
 
-	public int getCompanyID() {
-		return companyID;
-	}
-
-	public void setCompanyID(int companyID) {
-		this.companyID = companyID;
-	}
 
 	
 }
