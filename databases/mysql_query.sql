@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `shopping-cart`.`orders` (
     ON UPDATE NO ACTION,
 CONSTRAINT `orderSellerId`
 	FOREIGN KEY (`sellerId`)
-    REFERENCES `shopping-cart`.`product` (`sellerId`)
+    REFERENCES `shopping-cart`.`seller` (`companyName`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
 CONSTRAINT `orderStudentId`

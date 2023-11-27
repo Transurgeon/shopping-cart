@@ -38,23 +38,23 @@
 	}
 	ProductServiceImpl prodDao = new ProductServiceImpl();
 	SellerServiceImpl sellerServiceDao = new SellerServiceImpl();
-	List<ProductBean> products = new ArrayList<ProductBean>();
+	List<ProductBean> discountedProducts = new ArrayList<ProductBean>();
 
 	String search = request.getParameter("search");
 	String type = request.getParameter("type");
-	String message = companyName + " Products";
+	String message = companyName + " Discount Suggestions List";
 	if (search != null) {
-		products = prodDao.searchAllProducts(search);
+		discountedProducts = prodDao.searchAllProducts(search);
 		message = "Showing Results for '" + search + "'";
 	} else if (type != null) {
-		products = prodDao.getAllProductsByType(type);
+		discountedProducts = prodDao.getAllProductsByType(type);
 		message = "Showing Results for '" + type + "'";
 	} else {
-		products = sellerServiceDao.getAllProductsBySeller(companyName);
+		discountedProducts = sellerServiceDao.getAllProductsBySeller(companyName);
 	}
-	if (products.isEmpty()) {
+	if (discountedProducts.isEmpty()) {
 		message = "No items found for the search '" + (search != null ? search : type) + "'";
-		products = prodDao.getAllProducts();
+		discountedProducts = prodDao.getAllProducts();
 	}
 	%>
 
@@ -64,22 +64,15 @@
 
 	<div class="text-center"
 		style="color: black; font-size: 14px; font-weight: bold;"><%=message%></div>
-	<div class="container">
-		<div class="row">
-			 <div class="col-md-6 col-md-offset-3 text-center">
-			 	<a href="discount_suggestions.jsp" class="btn btn-primary">Discount Suggestions</a>
-			 </div>
-		</div>
-	</div>
 		
 	<!-- Start of Product Items List -->
 	<div class="container" style="background-color: #ffffff;">
 		<div class="row text-center">
 
 			<%
-			for (ProductBean product : products) {
+			for (ProductBean product : discountedProducts) {
 			%>
-			<div class="col-sm-4" style='height: 350px;'>
+			<div class="col-sm-4" style='height: 500px;'>
 				<div class="thumbnail">
 					<img src="./ShowImage?pid=<%=product.getProdId()%>" alt="Product"
 						style="height: 150px; max-width: 180px; padding: 1%">
@@ -96,11 +89,16 @@
 					<form method="post">
 						<button type="submit"
 							formaction="./RemoveProductSrv?prodid=<%=product.getProdId()%>"
-							class="btn btn-danger">Remove Product</button>
+							class="btn btn-danger float-right">Remove existing discount</button>
 						&nbsp;&nbsp;&nbsp;
+					</form>
+					<label>Add a discount (%): </label>
+					<input type="number" id="discountPercentage" name="discountPercentage">
+					<form method="post">
 						<button type="submit"
-							formaction="updateProduct.jsp?prodid=<%=product.getProdId()%>"
-							class="btn btn-primary">Update Product</button>
+							formaction="./AddDiscount?prodid=<%=product.getProdId()%>&discount=<%=request.getParameter("discountPercentage")%>"
+							class="btn btn-primary float-right">Submit discount</button>
+						&nbsp;&nbsp;&nbsp;
 					</form>
 				</div>
 			</div>
