@@ -124,4 +124,15 @@ public class SellerServiceImpl implements SellerService {
 		return oldPrice * percentageInDecimal;
 	}
 
+	@Override
+	public String removeExistingDiscount(String prodId) {
+		String status = "This product has no discount applied to it";
+		ProductServiceImpl prodService = new ProductServiceImpl();
+		ProductBean theProduct = prodService.getProductDetails(prodId);
+		if(theProduct.isDiscounted() && theProduct.getDiscountPercentage() != 0) {
+			
+		}
+		return null;
+	}
+
 }

@@ -11,4 +11,6 @@ public interface SellerService {
 	public List<ProductBean> selectProductsToDiscount(String companyName);
 	
 	public String addDiscountToProduct(String prodId,int percentage);
+	
+	public String removeExistingDiscount(String prodId);
 }
