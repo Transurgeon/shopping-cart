@@ -22,7 +22,7 @@ public class ProductBean implements Serializable {
 	private String sellerId;
 
 	public ProductBean(String prodId, String prodName, String prodType, String prodInfo, double prodPrice,
-			int prodQuantity, InputStream prodImage, double discountPercentage, boolean isDiscounted, boolean isUsed,String sellerId) {
+			int prodQuantity, InputStream prodImage, double discountPercentage, boolean isDiscounted, boolean isUsed, String sellerId) {
 		super();
 		this.prodId = prodId;
 		this.prodName = prodName;
