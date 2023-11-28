@@ -19,11 +19,11 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public String addProduct(String prodName, String prodType, String prodInfo, double prodPrice, int prodQuantity,
-			InputStream prodImage, double discountPercentage, boolean isDiscounted, boolean isUsed,String sellerId) {
+			InputStream prodImage, double discountPercentage, boolean isDiscounted, boolean isUsed,String sellerId, int unitSold) {
 		String status = null;
 		String prodId = IDUtil.generateId();
 
-		ProductBean product = new ProductBean(prodId, prodName, prodType, prodInfo, prodPrice, prodQuantity, prodImage, discountPercentage,isDiscounted,isUsed,sellerId);
+		ProductBean product = new ProductBean(prodId, prodName, prodType, prodInfo, prodPrice, prodQuantity, prodImage, discountPercentage,isDiscounted,isUsed,sellerId, unitSold);
 
 		status = addProduct(product);
 
@@ -439,6 +439,7 @@ public class ProductServiceImpl implements ProductService {
 				product.setDiscounted(rs.getBoolean(9));
 				product.setUsed(rs.getBoolean(10));
 				product.setSeller(rs.getString(11));
+				product.setUnitSold(rs.getInt(12));
 			}
 
 		} catch (SQLException e) {

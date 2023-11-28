@@ -36,5 +36,5 @@ public interface ProductService {
 	public int getProductQuantity(String prodId);
 
 	String addProduct(String prodName, String prodType, String prodInfo, double prodPrice, int prodQuantity,
-			InputStream prodImage, double discountPercentage, boolean isDiscounted, boolean isUsed, String sellerId);
+			InputStream prodImage, double discountPercentage, boolean isDiscounted, boolean isUsed, String sellerId, int unitSold);
 }
