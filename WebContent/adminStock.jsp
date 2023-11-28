@@ -22,6 +22,7 @@
 	String userType = (String) session.getAttribute("usertype");
 	String userName = (String) session.getAttribute("username");
 	String password = (String) session.getAttribute("password");
+	String companyName = (String)session.getAttribute("companyName");
 
 	if (userType == null || !userType.equals("company")) {
 
@@ -39,7 +40,7 @@
 	<jsp:include page="header.jsp" />
 
 	<div class="text-center"
-		style="color: black; font-size: 24px; font-weight: bold; padding-bottom: 5px">Stock
+		style="color: black; font-size: 24px; font-weight: bold; padding-bottom: 5px"><%=companyName.toUpperCase() %> Stock
 		Products</div>
 	<div class="container-fluid">
 		<div class="table-responsive ">
@@ -62,9 +63,9 @@
 
 
 					<%
-					ProductServiceImpl productDao = new ProductServiceImpl();
+					SellerServiceImpl productDao = new SellerServiceImpl();
 					List<ProductBean> products = new ArrayList<ProductBean>();
-					products = productDao.getAllProducts();
+					products = productDao.getAllProductsBySeller(companyName);
 					for (ProductBean product : products) {
 					%>
 
