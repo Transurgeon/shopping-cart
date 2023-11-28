@@ -80,6 +80,12 @@
 			%>
 			<div class="col-sm-4" style='height: 500px;'>
 				<div class="thumbnail">
+				<%if(product.getUnitSold() >= 19){ %>
+				<p style="color: blue"> Popular </p>
+				<%} %>
+				<%if(product.getUnitSold() < 4){ %>
+				<p style="color: red"> Low-selling </p>
+				<%} %>
 					<img src="./ShowImage?pid=<%=product.getProdId()%>" alt="Product"
 						style="height: 150px; max-width: 180px; padding: 1%">
 					<p class="productname"><%=product.getProdName()%>
@@ -92,9 +98,10 @@
 						Rs
 						<%=product.getProdPrice()%>
 					</p>
+					<p class="price">Units sold: <%=product.getUnitSold() %> </p>
 					<form method="post">
 						<button type="submit"
-							formaction="./RemoveProductSrv?prodid=<%=product.getProdId()%>"
+							formaction="./RemoveDiscountSrv?prodid=<%=product.getProdId()%>"
 							class="btn btn-danger float-right">Remove existing discount</button>
 						&nbsp;&nbsp;&nbsp;
 					</form>

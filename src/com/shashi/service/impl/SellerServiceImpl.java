@@ -123,16 +123,45 @@ public class SellerServiceImpl implements SellerService {
 		double percentageInDecimal = (100-percentage) * 0.01;
 		return oldPrice * percentageInDecimal;
 	}
+	
+	private double setOldPrice(double percentage, double newPrice) {
+		double percentageInDecimal = (100-percentage) * 0.01;
+		double oldPrice = newPrice / percentageInDecimal;
+		return oldPrice;
+				
+	}
 
 	@Override
 	public String removeExistingDiscount(String prodId) {
 		String status = "This product has no discount applied to it";
 		ProductServiceImpl prodService = new ProductServiceImpl();
 		ProductBean theProduct = prodService.getProductDetails(prodId);
+		
+		Connection con = DBUtil.provideConnection();
+		PreparedStatement ps = null;
+		
 		if(theProduct.isDiscounted() && theProduct.getDiscountPercentage() != 0) {
+			//modify price and discount
+			theProduct.setProdPrice(setOldPrice(theProduct.getDiscountPercentage(), theProduct.getProdPrice())); // price = oldprice * (100 - percentage)*0.01
 			
+			
+			try { //update percentage in table
+				ps = con.prepareStatement("update product set discountPercentage=?, pprice=? where pid=?");
+				ps.setInt(1, 0);
+				ps.setDouble(2, theProduct.getProdPrice());
+				ps.setString(3, prodId);
+				
+				ps.executeUpdate();
+
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			status = "Discount was succesfully removed and old price was restored!";
 		}
-		return null;
+		DBUtil.closeConnection(con);
+		DBUtil.closeConnection(ps);
+		return status;
 	}
 
 }
