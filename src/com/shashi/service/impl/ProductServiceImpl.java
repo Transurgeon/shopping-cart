@@ -208,6 +208,10 @@ public class ProductServiceImpl implements ProductService {
 				product.setProdPrice(rs.getDouble(5));
 				product.setProdQuantity(rs.getInt(6));
 				product.setProdImage(rs.getAsciiStream(7));
+				product.setDiscountPercentage(rs.getDouble(8));
+				product.setDiscounted(rs.getBoolean(9));
+				product.setUsed(rs.getBoolean(10));
+				product.setSeller(rs.getString(11));
 
 				products.add(product);
 
@@ -249,6 +253,10 @@ public class ProductServiceImpl implements ProductService {
 				product.setProdPrice(rs.getDouble(5));
 				product.setProdQuantity(rs.getInt(6));
 				product.setProdImage(rs.getAsciiStream(7));
+				product.setDiscountPercentage(rs.getDouble(8));
+				product.setDiscounted(rs.getBoolean(9));
+				product.setUsed(rs.getBoolean(10));
+				product.setSeller(rs.getString(11));
 
 				products.add(product);
 
@@ -286,7 +294,6 @@ public class ProductServiceImpl implements ProductService {
 			while (rs.next()) {
 
 				ProductBean product = new ProductBean();
-
 				product.setProdId(rs.getString(1));
 				product.setProdName(rs.getString(2));
 				product.setProdType(rs.getString(3));
@@ -294,6 +301,10 @@ public class ProductServiceImpl implements ProductService {
 				product.setProdPrice(rs.getDouble(5));
 				product.setProdQuantity(rs.getInt(6));
 				product.setProdImage(rs.getAsciiStream(7));
+				product.setDiscountPercentage(rs.getDouble(8));
+				product.setDiscounted(rs.getBoolean(9));
+				product.setUsed(rs.getBoolean(10));
+				product.setSeller(rs.getString(11));
 
 				products.add(product);
 
@@ -308,6 +319,65 @@ public class ProductServiceImpl implements ProductService {
 		DBUtil.closeConnection(rs);
 
 		return products;
+	}
+
+	@Override
+	public List<ProductBean> getPriceFilteredProducts(String lower, String higher) {
+		List<ProductBean> allProducts = getAllProducts();
+		List<ProductBean> filteredProducts = new ArrayList<>();
+
+		for (ProductBean product : allProducts) {
+			if (isPriceInRange(product.getProdPrice(), lower, higher)) {
+				filteredProducts.add(product);
+			}
+		}
+
+		return filteredProducts;
+	}
+
+	@Override
+	public List<ProductBean> getUsedDiscountedProducts(String isDiscounted, String isUsed) {
+		List<ProductBean> allProducts = getAllProducts();
+		List<ProductBean> filteredProducts = new ArrayList<>();
+
+		for (ProductBean product : allProducts) {
+			boolean discount = product.isDiscounted();
+			boolean used = product.isUsed();
+			if (isDiscounted != null && (isDiscounted.equals("on")) && (isUsed == null || isUsed.isEmpty())) {
+				if (discount) {
+					filteredProducts.add(product);
+				}
+			}
+			else if (isUsed != null && (isUsed.equals("on")) && (isDiscounted == null || isDiscounted.isEmpty())) {
+				if (used) {
+					filteredProducts.add(product);
+				}
+			}
+			else if (isUsed.equals("on") && isDiscounted.equals("on")) {
+				if (discount && used) {
+					filteredProducts.add(product);
+				}
+			}
+		}
+		return filteredProducts;
+	}
+
+	private boolean isPriceInRange(double productPrice, String lower, String higher) {
+		if (lower == null && higher == null) {
+			return true; // No price filtering
+		}
+		try {
+			if (lower != null && Integer.parseInt(lower) > productPrice) {
+				return false; // Below lower limit
+			}
+
+			if (higher != null && Integer.parseInt(higher) < productPrice) {
+				return false; // Above higher limit
+			}
+			return true;
+		} catch (NumberFormatException e) {
+			return false; // Invalid number format
+		}
 	}
 
 	@Override
