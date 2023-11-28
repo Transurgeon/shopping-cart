@@ -39,6 +39,9 @@ public class SellerServiceImpl implements SellerService {
 				product.setProdPrice(rs.getDouble(5));
 				product.setProdQuantity(rs.getInt(6));
 				product.setProdImage(rs.getAsciiStream(7));
+				product.setDiscountPercentage(rs.getDouble(8));
+				product.setDiscounted(rs.getBoolean(9));
+				product.setUsed(rs.getBoolean(10));
 				product.setUnitSold(rs.getInt(12));
 				product.setSeller(rs.getString(11));
 
