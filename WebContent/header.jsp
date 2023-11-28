@@ -61,7 +61,7 @@
 		</div>
 	</nav>
 	<%
-	} else if ("customer".equalsIgnoreCase(userType)) { //CUSTOMER HEADER
+	} else if ("student".equalsIgnoreCase(userType)) { //CUSTOMER HEADER
 
 	int notf = new CartServiceImpl().getCartCount((String) session.getAttribute("username"));
 	%>

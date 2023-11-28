@@ -92,12 +92,11 @@
 							class="btn btn-danger float-right">Remove existing discount</button>
 						&nbsp;&nbsp;&nbsp;
 					</form>
-					<label>Add a discount (%): </label>
-					<input type="number" id="discountPercentage" name="discountPercentage">
-					<form method="post">
-						<button type="submit"
-							formaction="./AddDiscount?prodid=<%=product.getProdId()%>&discount=<%=request.getParameter("discountPercentage")%>"
-							class="btn btn-primary float-right">Submit discount</button>
+					<form method="post" action="./AddDiscountSrv">
+						<label>Add a discount (%): </label>
+						<input type="number" id="discountPercentage" name="discountPercentage">
+						<input type="hidden" name="prodid" value="<%=product.getProdId()%>">
+						<button type="submit" class="btn btn-success" >Add discount</button>
 						&nbsp;&nbsp;&nbsp;
 					</form>
 				</div>
@@ -110,7 +109,6 @@
 		</div>
 	</div>
 	<!-- ENd of Product Items List -->
-
 	<%@ include file="footer.html"%>
 
 </body>

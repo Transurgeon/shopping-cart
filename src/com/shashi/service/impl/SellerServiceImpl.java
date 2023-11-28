@@ -56,4 +56,70 @@ public class SellerServiceImpl implements SellerService {
 		return products;
 	}
 
+	@Override
+	public List<ProductBean> selectProductsToDiscount(String companyName) {
+		List<ProductBean> allProducts = new ArrayList<ProductBean>();
+		allProducts = getAllProductsBySeller(companyName);
+		
+		Connection con = DBUtil.provideConnection();
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		for(ProductBean product : allProducts) {
+			if(product.getUnitSold() >= 20 || product.getUnitSold() < 4) {
+				
+			try {
+				ps = con.prepareStatement("update product set isDiscounted=?");
+				ps.setInt(1, 1);
+				
+				rs = ps.executeQuery();
+
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+		DBUtil.closeConnection(con);
+		DBUtil.closeConnection(ps);
+		DBUtil.closeConnection(rs);
+		return allProducts;
+	}
+
+	@Override
+	public String addDiscountToProduct(String prodId,int percentage) {
+		String status = "Discount could not be add to the product";
+		ProductServiceImpl prodService = new ProductServiceImpl();
+		ProductBean theProduct = prodService.getProductDetails(prodId);
+		Connection con = DBUtil.provideConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		if(theProduct.isDiscounted()) {
+			theProduct.setDiscountPercentage(percentage);
+			theProduct.setProdPrice(setNewPrice(percentage, theProduct.getProdPrice()));
+			prodService.updateProductPrice(prodId, theProduct.getProdPrice()); //update the price
+			try { //update percentage in table
+				ps = con.prepareStatement("update product set discountPercentage=?");
+				ps.setInt(1, percentage);
+				
+				rs = ps.executeQuery();
+
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			status = "Discount was succesfully applied to the product!!!";
+		}
+		DBUtil.closeConnection(con);
+		DBUtil.closeConnection(ps);
+		DBUtil.closeConnection(rs);
+		return status;
+	}
+	
+	private double setNewPrice(int percentage, double oldPrice) {
+		double percentageInDecimal = (100-percentage) * 0.01;
+		return oldPrice * percentageInDecimal;
+	}
+
 }

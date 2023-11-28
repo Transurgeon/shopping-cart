@@ -20,9 +20,10 @@ public class ProductBean implements Serializable {
 	private boolean isDiscounted;
 	private boolean isUsed;
 	private String sellerId;
+	private int unitSold;
 
 	public ProductBean(String prodId, String prodName, String prodType, String prodInfo, double prodPrice,
-			int prodQuantity, InputStream prodImage, double discountPercentage, boolean isDiscounted, boolean isUsed,String sellerId) {
+			int prodQuantity, InputStream prodImage, double discountPercentage, boolean isDiscounted, boolean isUsed,String sellerId, int unitSold) {
 		super();
 		this.prodId = prodId;
 		this.prodName = prodName;
@@ -35,6 +36,7 @@ public class ProductBean implements Serializable {
 		this.isDiscounted = isDiscounted;
 		this.isUsed = isUsed;
 		this.sellerId = sellerId;
+		this.unitSold = unitSold;
 	}
 
 	public String getProdId() {
@@ -124,6 +126,24 @@ public class ProductBean implements Serializable {
 	public void setSeller(String sellerId) {
 		this.sellerId = sellerId;
 	}
+
+	public String getSellerId() {
+		return sellerId;
+	}
+
+	public void setSellerId(String sellerId) {
+		this.sellerId = sellerId;
+	}
+
+	public int getUnitSold() {
+		return unitSold;
+	}
+
+	public void setUnitSold(int unitSold) {
+		this.unitSold = unitSold;
+	}
+	
+	
 
 	
 }
