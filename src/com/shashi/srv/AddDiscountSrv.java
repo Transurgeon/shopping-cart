@@ -1,27 +1,27 @@
 package com.shashi.srv;
 
 import java.io.IOException;
-import java.io.InputStream;
+
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
-
-import com.shashi.service.impl.ProductServiceImpl;
+import com.shashi.service.impl.SellerServiceImpl;
 
 /**
- * Servlet implementation class AddProductSrv
+ * Servlet implementation class AddDiscountSrv
  */
 @WebServlet("/AddDiscountSrv")
-@MultipartConfig(maxFileSize = 16177215)
 public class AddDiscountSrv  extends HttpServlet{
 	private static final long serialVersionUID = 1L;
+	public AddDiscountSrv() {
+		super();
+
+	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -31,22 +31,26 @@ public class AddDiscountSrv  extends HttpServlet{
 		String userName = (String) session.getAttribute("username");
 		String password = (String) session.getAttribute("password");
 		String prodId = request.getParameter("prodid");
-		String discountPercentage = request.getParameter("discountPercentage");
+		int discountPercentage = Integer.parseInt(request.getParameter("discountPercentage"));
 		
 		
 
-		if (userType == null || !userType.equals("admin")) {
+		if (userType == null || !userType.equals("company")) {
 
 			response.sendRedirect("login.jsp?message=Access Denied!");
+			return;
 
 		}
 
 		else if (userName == null || password == null) {
 
 			response.sendRedirect("login.jsp?message=Session Expired, Login Again to Continue!");
+			return;
 		}
 		
 		//Get the product by his id
+		SellerServiceImpl sellerService = new SellerServiceImpl();
+		String status = sellerService.addDiscountToProduct(prodId, discountPercentage);
 		
 		//Apply the discount percentage 
 		
@@ -54,24 +58,8 @@ public class AddDiscountSrv  extends HttpServlet{
 		
 		//return to the discount page
 		
-		String status = "Product Registration Failed!";
-		String prodName = request.getParameter("name");
-		String prodType = request.getParameter("type");
-		String prodInfo = request.getParameter("info");
-		double prodPrice = Double.parseDouble(request.getParameter("price"));
-		int prodQuantity = Integer.parseInt(request.getParameter("quantity"));
 
-		Part part = request.getPart("image");
-
-		InputStream inputStream = part.getInputStream();
-
-		InputStream prodImage = inputStream;
-
-		ProductServiceImpl product = new ProductServiceImpl();
-
-		status = product.addProduct(prodName, prodType, prodInfo, prodPrice, prodQuantity, prodImage, 1,false,false,""); //modify this line
-
-		RequestDispatcher rd = request.getRequestDispatcher("addProduct.jsp?message=" + status);
+		RequestDispatcher rd = request.getRequestDispatcher("discount_suggestions.jsp?message=" + status);
 		rd.forward(request, response);
 
 	}

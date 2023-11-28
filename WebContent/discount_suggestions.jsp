@@ -25,6 +25,11 @@
 	String userType = (String) session.getAttribute("usertype");
 	String companyName = (String) session.getAttribute("companyName");
 
+	String message = request.getParameter("message");
+	if(message == null){
+		message = "";
+	}
+
 	if (userType == null || !userType.equals("company")) {
 
 		response.sendRedirect("login.jsp?message=Access Denied, Login as admin!!");
@@ -42,7 +47,7 @@
 
 	String search = request.getParameter("search");
 	String type = request.getParameter("type");
-	String message = companyName + " Discount Suggestions List";
+	String title = companyName + " Discount Suggestions List";
 	if (search != null) {
 		discountedProducts = prodDao.searchAllProducts(search);
 		message = "Showing Results for '" + search + "'";
@@ -50,7 +55,7 @@
 		discountedProducts = prodDao.getAllProductsByType(type);
 		message = "Showing Results for '" + type + "'";
 	} else {
-		discountedProducts = sellerServiceDao.getAllProductsBySeller(companyName);
+		discountedProducts = sellerServiceDao.selectProductsToDiscount(companyName);
 	}
 	if (discountedProducts.isEmpty()) {
 		message = "No items found for the search '" + (search != null ? search : type) + "'";
@@ -61,9 +66,10 @@
 
 
 	<jsp:include page="header.jsp" />
-
 	<div class="text-center"
-		style="color: black; font-size: 14px; font-weight: bold;"><%=message%></div>
+		style="color: black; font-size: 14px; font-weight: bold;"><%=title%></div>
+	<div class="text-center"
+		style="color: green; font-size: 14px; font-weight: bold;"><%=message%></div>
 		
 	<!-- Start of Product Items List -->
 	<div class="container" style="background-color: #ffffff;">

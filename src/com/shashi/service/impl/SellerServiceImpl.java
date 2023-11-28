@@ -39,6 +39,7 @@ public class SellerServiceImpl implements SellerService {
 				product.setProdPrice(rs.getDouble(5));
 				product.setProdQuantity(rs.getInt(6));
 				product.setProdImage(rs.getAsciiStream(7));
+				product.setUnitSold(rs.getInt(12));
 				product.setSeller(rs.getString(11));
 
 				products.add(product);
@@ -59,20 +60,21 @@ public class SellerServiceImpl implements SellerService {
 	@Override
 	public List<ProductBean> selectProductsToDiscount(String companyName) {
 		List<ProductBean> allProducts = new ArrayList<ProductBean>();
+		List<ProductBean> discountedProducts = new ArrayList<ProductBean>();
 		allProducts = getAllProductsBySeller(companyName);
 		
 		Connection con = DBUtil.provideConnection();
 
 		PreparedStatement ps = null;
-		ResultSet rs = null;
 		for(ProductBean product : allProducts) {
-			if(product.getUnitSold() >= 20 || product.getUnitSold() < 4) {
-				
+			if(product.getUnitSold() >= 19 || product.getUnitSold() < 4) {
+				discountedProducts.add(product);
 			try {
-				ps = con.prepareStatement("update product set isDiscounted=?");
+				ps = con.prepareStatement("update product set isDiscounted=? where pid=?");
 				ps.setInt(1, 1);
+				ps.setString(2, product.getProdId());
 				
-				rs = ps.executeQuery();
+				ps.executeUpdate();
 
 
 			} catch (SQLException e) {
@@ -82,8 +84,7 @@ public class SellerServiceImpl implements SellerService {
 	}
 		DBUtil.closeConnection(con);
 		DBUtil.closeConnection(ps);
-		DBUtil.closeConnection(rs);
-		return allProducts;
+		return discountedProducts;
 	}
 
 	@Override
@@ -93,17 +94,18 @@ public class SellerServiceImpl implements SellerService {
 		ProductBean theProduct = prodService.getProductDetails(prodId);
 		Connection con = DBUtil.provideConnection();
 		PreparedStatement ps = null;
-		ResultSet rs = null;
+	
 		
 		if(theProduct.isDiscounted()) {
 			theProduct.setDiscountPercentage(percentage);
 			theProduct.setProdPrice(setNewPrice(percentage, theProduct.getProdPrice()));
 			prodService.updateProductPrice(prodId, theProduct.getProdPrice()); //update the price
 			try { //update percentage in table
-				ps = con.prepareStatement("update product set discountPercentage=?");
+				ps = con.prepareStatement("update product set discountPercentage=? where pid=?");
 				ps.setInt(1, percentage);
+				ps.setString(2, prodId);
 				
-				rs = ps.executeQuery();
+				ps.executeUpdate();
 
 
 			} catch (SQLException e) {
@@ -113,7 +115,7 @@ public class SellerServiceImpl implements SellerService {
 		}
 		DBUtil.closeConnection(con);
 		DBUtil.closeConnection(ps);
-		DBUtil.closeConnection(rs);
+	
 		return status;
 	}
 	
