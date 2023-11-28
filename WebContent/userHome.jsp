@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Ellison Electronics</title>
+<title>Concordia Shopping Cart</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -18,14 +18,17 @@
 </head>
 <body style="background-color: #f2f2f2;">
 
-	<%
+<%
 	/* Checking the user credentials */
 	String userName = (String) session.getAttribute("username");
 	String password = (String) session.getAttribute("password");
+	String userType = (String) session.getAttribute("usertype");
 
-	if (userName == null || password == null) {
+	boolean isValidUser = true;
 
-		response.sendRedirect("login.jsp?message=Session Expired, Login Again!!");
+	if (userType == null || userName == null || password == null || !userType.equals("customer")) {
+
+		isValidUser = false;
 	}
 
 	ProductServiceImpl prodDao = new ProductServiceImpl();
@@ -33,21 +36,35 @@
 
 	String search = request.getParameter("search");
 	String type = request.getParameter("type");
+	String priceFrom = request.getParameter("priceFrom");
+	String priceTo = request.getParameter("priceTo");
+	String isDiscount = request.getParameter("discount");
+	String isUsed = request.getParameter("used");
 	String message = "All Products";
-	if (search != null) {
+	if ((priceFrom != null && priceTo != null) && (!priceFrom.isEmpty() && !priceTo.isEmpty())) {
+		products = prodDao.getPriceFilteredProducts(priceFrom, priceTo);
+		message = "Showing price filter";
+	}
+	else if (isDiscount != null || isUsed != null) {
+		products = prodDao.getUsedDiscountedProducts(isDiscount, isUsed);
+		message = "Showing discounted or used products";
+	}
+	else if (search != null) {
 		products = prodDao.searchAllProducts(search);
 		message = "Showing Results for '" + search + "'";
-	} else if (type != null) {
+	}
+	else if (type != null) {
 		products = prodDao.getAllProductsByType(type);
 		message = "Showing Results for '" + type + "'";
-	} else {
+	}
+	else {
 		products = prodDao.getAllProducts();
 	}
 	if (products.isEmpty()) {
 		message = "No items found for the search '" + (search != null ? search : type) + "'";
 		products = prodDao.getAllProducts();
 	}
-	%>
+%>
 
 
 
@@ -67,6 +84,22 @@
 			%>
 			<div class="col-sm-4" style='height: 350px;'>
 				<div class="thumbnail">
+					<div style="width: 100%; position: relative; margin-top: 2px; margin-left: 2px;">
+						<% if (product.getDiscountPercentage() > 0) { %>
+						<div style="width: 70px; height: 31px; position: absolute; left: 0; background: #FF5454; border-radius: 8px;">
+							<div style="position: absolute; left: 17px; top: 7px; color: white; font-size: 13px; font-family: Kumbh Sans; font-weight: 600; line-height: 15.54px;">
+								<%=product.getDiscountPercentage()%> %
+							</div>
+						</div>
+						<% } %>
+						<% if (product.isUsed()) { %>
+						<div style="width: 70px; height: 31px; position: absolute; right: 0; background: #454CF8; border-radius: 8px;">
+							<div style="position: absolute; left: 17px; top: 7px; color: white; font-size: 13px; font-family: Kumbh Sans; font-weight: 600; line-height: 15.54px;">
+								USED
+							</div>
+						</div>
+						<% } %>
+					</div>
 					<img src="./ShowImage?pid=<%=product.getProdId()%>" alt="Product"
 						style="height: 150px; max-width: 180px">
 					<p class="productname"><%=product.getProdName()%>
@@ -115,8 +148,6 @@
 
 		</div>
 	</div>
-	<!-- ENd of Product Items List -->
-
 
 	<%@ include file="footer.html"%>
 
