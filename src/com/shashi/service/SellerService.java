@@ -13,4 +13,6 @@ public interface SellerService {
 	public String addDiscountToProduct(String prodId,int percentage);
 	
 	public String removeExistingDiscount(String prodId);
+	
+	public List<ProductBean> getLowStockProducts(String companyName);
 }

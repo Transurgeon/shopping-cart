@@ -167,4 +167,19 @@ public class SellerServiceImpl implements SellerService {
 		return status;
 	}
 
+	@Override
+	public List<ProductBean> getLowStockProducts(String companyName) {
+		List<ProductBean> allProducts = new ArrayList<ProductBean>();
+		List<ProductBean> lowUnitsProducts = new ArrayList<ProductBean>();
+		allProducts = getAllProductsBySeller(companyName);
+	
+		for(ProductBean product : allProducts) {
+			if(product.getProdQuantity() < 3) {
+				lowUnitsProducts.add(product);
+			}
+		}
+		
+		return lowUnitsProducts;
+	}
+
 }

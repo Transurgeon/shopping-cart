@@ -153,7 +153,7 @@
 					<%
 					SellerServiceImpl suggestionDao = new SellerServiceImpl();
 					List<ProductBean> restockProducts = new ArrayList<ProductBean>();
-					restockProducts = suggestionDao.getAllProductsBySeller(companyName);
+					restockProducts = suggestionDao.getLowStockProducts(companyName);
 					for (ProductBean product : restockProducts) {
 					%>
 
