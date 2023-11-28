@@ -208,6 +208,10 @@ public class ProductServiceImpl implements ProductService {
 				product.setProdPrice(rs.getDouble(5));
 				product.setProdQuantity(rs.getInt(6));
 				product.setProdImage(rs.getAsciiStream(7));
+				product.setDiscountPercentage(rs.getDouble(8));
+				product.setDiscounted(rs.getBoolean(9));
+				product.setUsed(rs.getBoolean(10));
+				product.setSeller(rs.getString(11));
 
 				products.add(product);
 
@@ -249,6 +253,10 @@ public class ProductServiceImpl implements ProductService {
 				product.setProdPrice(rs.getDouble(5));
 				product.setProdQuantity(rs.getInt(6));
 				product.setProdImage(rs.getAsciiStream(7));
+				product.setDiscountPercentage(rs.getDouble(8));
+				product.setDiscounted(rs.getBoolean(9));
+				product.setUsed(rs.getBoolean(10));
+				product.setSeller(rs.getString(11));
 
 				products.add(product);
 
@@ -286,7 +294,6 @@ public class ProductServiceImpl implements ProductService {
 			while (rs.next()) {
 
 				ProductBean product = new ProductBean();
-
 				product.setProdId(rs.getString(1));
 				product.setProdName(rs.getString(2));
 				product.setProdType(rs.getString(3));
@@ -294,6 +301,10 @@ public class ProductServiceImpl implements ProductService {
 				product.setProdPrice(rs.getDouble(5));
 				product.setProdQuantity(rs.getInt(6));
 				product.setProdImage(rs.getAsciiStream(7));
+				product.setDiscountPercentage(rs.getDouble(8));
+				product.setDiscounted(rs.getBoolean(9));
+				product.setUsed(rs.getBoolean(10));
+				product.setSeller(rs.getString(11));
 
 				products.add(product);
 
@@ -308,6 +319,21 @@ public class ProductServiceImpl implements ProductService {
 		DBUtil.closeConnection(rs);
 
 		return products;
+	}
+
+	@Override
+	public List<ProductBean> getAllProductsByPrice(int lower, int higher) {
+		return null;
+	}
+
+	@Override
+	public List<ProductBean> getAllDiscountedProducts() {
+		return null;
+	}
+
+	@Override
+	public List<ProductBean> getAllUsedProducts() {
+		return null;
 	}
 
 	@Override

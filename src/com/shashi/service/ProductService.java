@@ -20,6 +20,9 @@ public interface ProductService {
 	public List<ProductBean> getAllProductsByType(String type);
 
 	public List<ProductBean> searchAllProducts(String search);
+	public List<ProductBean> getAllProductsByPrice(int lower, int higher);
+	public List<ProductBean> getAllDiscountedProducts();
+	public List<ProductBean> getAllUsedProducts();
 
 	public byte[] getImage(String prodId);
 
