@@ -322,18 +322,62 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<ProductBean> getAllProductsByPrice(int lower, int higher) {
-		return null;
+	public List<ProductBean> getPriceFilteredProducts(String lower, String higher) {
+		List<ProductBean> allProducts = getAllProducts();
+		List<ProductBean> filteredProducts = new ArrayList<>();
+
+		for (ProductBean product : allProducts) {
+			if (isPriceInRange(product.getProdPrice(), lower, higher)) {
+				filteredProducts.add(product);
+			}
+		}
+
+		return filteredProducts;
 	}
 
 	@Override
-	public List<ProductBean> getAllDiscountedProducts() {
-		return null;
+	public List<ProductBean> getUsedDiscountedProducts(String isDiscounted, String isUsed) {
+		List<ProductBean> allProducts = getAllProducts();
+		List<ProductBean> filteredProducts = new ArrayList<>();
+
+		for (ProductBean product : allProducts) {
+			boolean discount = product.isDiscounted();
+			boolean used = product.isUsed();
+			if (isDiscounted != null && (isDiscounted.equals("on")) && (isUsed == null || isUsed.isEmpty())) {
+				if (discount) {
+					filteredProducts.add(product);
+				}
+			}
+			else if (isUsed != null && (isUsed.equals("on")) && (isDiscounted == null || isDiscounted.isEmpty())) {
+				if (used) {
+					filteredProducts.add(product);
+				}
+			}
+			else if (isUsed.equals("on") && isDiscounted.equals("on")) {
+				if (discount && used) {
+					filteredProducts.add(product);
+				}
+			}
+		}
+		return filteredProducts;
 	}
 
-	@Override
-	public List<ProductBean> getAllUsedProducts() {
-		return null;
+	private boolean isPriceInRange(double productPrice, String lower, String higher) {
+		if (lower == null && higher == null) {
+			return true; // No price filtering
+		}
+		try {
+			if (lower != null && Integer.parseInt(lower) > productPrice) {
+				return false; // Below lower limit
+			}
+
+			if (higher != null && Integer.parseInt(higher) < productPrice) {
+				return false; // Above higher limit
+			}
+			return true;
+		} catch (NumberFormatException e) {
+			return false; // Invalid number format
+		}
 	}
 
 	@Override
