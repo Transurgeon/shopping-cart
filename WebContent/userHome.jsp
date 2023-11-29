@@ -23,6 +23,9 @@
 	String userName = (String) session.getAttribute("username");
 	String password = (String) session.getAttribute("password");
 	String userType = (String) session.getAttribute("usertype");
+	
+	String message = request.getParameter("message");
+	if(message == null) message = "";
 
 	boolean isValidUser = true;
 
@@ -40,28 +43,28 @@
 	String priceTo = request.getParameter("priceTo");
 	String isDiscount = request.getParameter("discount");
 	String isUsed = request.getParameter("used");
-	String message = "All Products";
+	String title = "All Products";
 	if ((priceFrom != null && priceTo != null) && (!priceFrom.isEmpty() && !priceTo.isEmpty())) {
 		products = prodDao.getPriceFilteredProducts(priceFrom, priceTo);
-		message = "Showing price filter";
+		title = "Showing price filter";
 	}
 	else if (isDiscount != null || isUsed != null) {
 		products = prodDao.getUsedDiscountedProducts(isDiscount, isUsed);
-		message = "Showing discounted or used products";
+		title = "Showing discounted or used products";
 	}
 	else if (search != null) {
 		products = prodDao.searchAllProducts(search);
-		message = "Showing Results for '" + search + "'";
+		title = "Showing Results for '" + search + "'";
 	}
 	else if (type != null) {
 		products = prodDao.getAllProductsByType(type);
-		message = "Showing Results for '" + type + "'";
+		title = "Showing Results for '" + type + "'";
 	}
 	else {
 		products = prodDao.getAllProducts();
 	}
 	if (products.isEmpty()) {
-		message = "No items found for the search '" + (search != null ? search : type) + "'";
+		title = "No items found for the search '" + (search != null ? search : type) + "'";
 		products = prodDao.getAllProducts();
 	}
 %>
@@ -71,7 +74,9 @@
 	<jsp:include page="header.jsp" />
 
 	<div class="text-center"
-		style="color: black; font-size: 14px; font-weight: bold;"><%=message%></div>
+		style="color: black; font-size: 14px; font-weight: bold;"><%=title%></div>
+	<div class="text-center"
+		style="color: green; font-size: 14px; font-weight: bold;"><%=message%></div>
 	<!-- <script>document.getElementById('mycart').innerHTML='<i data-count="20" class="fa fa-shopping-cart fa-3x icon-white badge" style="background-color:#333;margin:0px;padding:0px; margin-top:5px;"></i>'</script>
  -->
 	<!-- Start of Product Items List -->

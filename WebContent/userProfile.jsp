@@ -24,6 +24,7 @@
 	/* Checking the user credentials */
 	String userName = (String) session.getAttribute("username");
 	String password = (String) session.getAttribute("password");
+	String concordiaId = (String)session.getAttribute("concordiaId");
 
 	if (userName == null || password == null) {
 
@@ -66,19 +67,29 @@
 						<!-- <p class="text-muted mb-1">Full Stack Developer</p>
 						<p class="text-muted mb-4">Bay Area, San Francisco, CA</p> -->
 					</div>
-					<form action="./AddInterestToStudentSrv" method="post">
-					<label><h4>Your interests </h4></label><br>
+					<form action="./AddInterestsToStudentSrv" method="post">
+					<label><h4>Choose interests </h4></label><br>
 					<%	InterestServiceImpl interestDao = new InterestServiceImpl();
 						List<InterestBean> interests = interestDao.getAllInterests();
+						List<InterestBean> studentInterests = interestDao.getAllStudentInterests(concordiaId);
+						boolean isChecked;
 						for(InterestBean interest : interests){
 							String interestName = interest.getName();
-					%>
+							isChecked = false;
+							for(InterestBean studentInterest: studentInterests){
+								if(studentInterest.getName().equalsIgnoreCase(interestName)){
+									isChecked = true;
+									break;
+								}
+							}
+					%>		
 					
-					<input type="checkbox"  name="interests" value="<%= interestName %>">
+					<input type="checkbox"  name="interests" value="<%= interestName %>" <%= isChecked ? "checked" : "" %>>
 					<label ><%= interestName %></label><br>
 					<%} %>
 					<button type="submit">Add interests</button>
 					</form>
+				
 				</div>
 
 

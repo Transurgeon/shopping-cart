@@ -20,17 +20,26 @@ public class InterestServiceImpl implements InterestService {
 		PreparedStatement ps = null;
 		String status = "Interest could not be added";
 			try {
-				ps = con.prepareStatement("update student_interest set interestId=? where concordiaId=?");
-				ps.setString(1, name);
-				ps.setString(2, concordiaId);
+				ps = con.prepareStatement("insert into student_interest values(?,?)");
+				ps.setString(2, name);
+				ps.setString(1, concordiaId);
 				
-				ps.executeUpdate();
+				int k = ps.executeUpdate();
+
+				if (k > 0) {
+
+					status = "Interest Added Successfully!";
+
+				} else {
+
+					status = "Interest Updation Failed!";
+				}
+
 
 
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			status = "Interest was successfully added";
 		
 	
 		DBUtil.closeConnection(con);
@@ -95,6 +104,33 @@ public class InterestServiceImpl implements InterestService {
 
 		
 		return interests;
+	}
+
+	@Override
+	public boolean isInterestAlreadyChecked(String concordiaId, String name) {
+		Connection con = DBUtil.provideConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = con.prepareStatement("select * from student_interest where concordiaId=? AND interestId=?");
+			ps.setString(1, concordiaId);
+			ps.setString(2, name);
+			rs = ps.executeQuery();
+
+			if(rs.next()) {
+				return true;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		DBUtil.closeConnection(con);
+		DBUtil.closeConnection(ps);
+		DBUtil.closeConnection(rs);
+
+		return false;
 	}
 
 }
