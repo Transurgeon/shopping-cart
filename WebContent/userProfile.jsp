@@ -43,6 +43,7 @@
 	<div class="container bg-secondary">
 		<h1 style="margin-bottom: 30px; position: -ms-device-fixed">My Profile</h1>
 		<div class="row">
+		
 			<div class="col-lg-4">
 
 				<div class="card mb-4 mb-lg-0">
@@ -55,7 +56,9 @@
 					<div class="card-body text-center">
 						<img src="images/profile.jpg" class="rounded-circle img-fluid"
 							style="width: 150px;">
+							
 						<h5 class="my-3">
+						
 <%--							Hello--%>
 <%--							<%=user.getName()%>--%>
 <%--							here!!--%>
@@ -63,6 +66,19 @@
 						<!-- <p class="text-muted mb-1">Full Stack Developer</p>
 						<p class="text-muted mb-4">Bay Area, San Francisco, CA</p> -->
 					</div>
+					<form action="./AddInterestToStudentSrv" method="post">
+					<label><h4>Your interests </h4></label><br>
+					<%	InterestServiceImpl interestDao = new InterestServiceImpl();
+						List<InterestBean> interests = interestDao.getAllInterests();
+						for(InterestBean interest : interests){
+							String interestName = interest.getName();
+					%>
+					
+					<input type="checkbox"  name="interests" value="<%= interestName %>">
+					<label ><%= interestName %></label><br>
+					<%} %>
+					<button type="submit">Add interests</button>
+					</form>
 				</div>
 
 
