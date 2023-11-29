@@ -25,10 +25,9 @@ public class SellerBeanTest {
         int pinCode = 12345;
         String password = "password123";
         String companyName = "ABC Corp";
-        int companyID = 456;
 
         SellerBean sellerBean = new SellerBean(
-                userName, mobileNo, emailId, address, pinCode, password, companyName, companyID
+                userName, mobileNo, emailId, address, pinCode, password, companyName
         );
 
         assertNotNull(sellerBean);
@@ -39,7 +38,6 @@ public class SellerBeanTest {
         assertEquals(pinCode, sellerBean.getPinCode());
         assertEquals(password, sellerBean.getPassword());
         assertEquals(companyName, sellerBean.getCompanyName());
-        assertEquals(companyID, sellerBean.getCompanyID());
     }
 
     @Test
@@ -47,16 +45,13 @@ public class SellerBeanTest {
         SellerBean sellerBean = new SellerBean();
 
         String companyName = "XYZ Ltd";
-        int companyID = 789;
 
         sellerBean.setCompanyName(companyName);
-        sellerBean.setCompanyID(companyID);
 
         assertNull(sellerBean.getName());
         assertNull(sellerBean.getEmail());
         assertNull(sellerBean.getAddress());
         assertNull(sellerBean.getPassword());
         assertEquals(companyName, sellerBean.getCompanyName());
-        assertEquals(companyID, sellerBean.getCompanyID());
     }
 }

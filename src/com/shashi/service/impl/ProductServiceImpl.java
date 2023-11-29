@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import com.shashi.beans.DemandBean;
@@ -212,6 +213,7 @@ public class ProductServiceImpl implements ProductService {
 				product.setDiscounted(rs.getBoolean(9));
 				product.setUsed(rs.getBoolean(10));
 				product.setSeller(rs.getString(11));
+				product.setUnitSold(rs.getInt(12));
 
 				products.add(product);
 
@@ -257,6 +259,7 @@ public class ProductServiceImpl implements ProductService {
 				product.setDiscounted(rs.getBoolean(9));
 				product.setUsed(rs.getBoolean(10));
 				product.setSeller(rs.getString(11));
+				product.setUnitSold(rs.getInt(12));
 
 				products.add(product);
 
@@ -305,6 +308,7 @@ public class ProductServiceImpl implements ProductService {
 				product.setDiscounted(rs.getBoolean(9));
 				product.setUsed(rs.getBoolean(10));
 				product.setSeller(rs.getString(11));
+				product.setUnitSold(rs.getInt(12));
 
 				products.add(product);
 
@@ -331,7 +335,6 @@ public class ProductServiceImpl implements ProductService {
 				filteredProducts.add(product);
 			}
 		}
-
 		return filteredProducts;
 	}
 
@@ -378,6 +381,38 @@ public class ProductServiceImpl implements ProductService {
 		} catch (NumberFormatException e) {
 			return false; // Invalid number format
 		}
+	}
+
+	@Override
+	public List<ProductBean> getMostPopularProducts() {
+		// Assuming you have a method to retrieve all products
+		List<ProductBean> allProducts = getAllProducts();
+
+		// Filter products where itemSold is greater than 20
+		List<ProductBean> mostPopularProducts = new ArrayList<>();
+		for (ProductBean product : allProducts) {
+			if (product.getUnitSold() > 20) {
+				mostPopularProducts.add(product);
+			}
+		}
+		// Sort products by itemSold in descending order
+		mostPopularProducts.sort(Comparator.comparing(ProductBean::getUnitSold).reversed());
+		return mostPopularProducts;
+	}
+
+	@Override
+	public List<ProductBean> getLeastPopularProducts() {
+		// Assuming you have a method to retrieve all products
+		List<ProductBean> allProducts = getAllProducts();
+
+		// Filter products where itemSold is less than or equal to 5
+		List<ProductBean> leastPopularProducts = new ArrayList<>();
+		for (ProductBean product : allProducts) {
+			if (product.getUnitSold() <= 5) {
+				leastPopularProducts.add(product);
+			}
+		}
+		return leastPopularProducts;
 	}
 
 	@Override
