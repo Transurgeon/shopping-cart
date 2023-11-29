@@ -20,8 +20,14 @@ public interface ProductService {
 	public List<ProductBean> getAllProductsByType(String type);
 
 	public List<ProductBean> searchAllProducts(String search);
+
 	public List<ProductBean> getPriceFilteredProducts(String lower, String higher);
+
 	public List<ProductBean> getUsedDiscountedProducts(String isDiscounted, String isUsed);
+
+	public List<ProductBean> getMostPopularProducts();
+
+	public List<ProductBean> getLeastPopularProducts();
 
 	public byte[] getImage(String prodId);
 
