@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.shashi.beans.StudentBean;
-import com.shashi.beans.UserBean;
+import com.shashi.service.impl.InterestServiceImpl;
 import com.shashi.service.impl.UserServiceImpl;
 
 /**
@@ -85,6 +85,11 @@ public class LoginSrv extends HttpServlet {
 				session.setAttribute("password", password);
 				session.setAttribute("usertype", userType);
 				session.setAttribute("concordiaId", concordiaId);
+				
+				//determine discounts and used product based on user interest
+				InterestServiceImpl interestService = new InterestServiceImpl();
+				interestService.applyDiscountOnInterests(concordiaId);
+				interestService.applyUsedOnInterests(concordiaId);
 
 				RequestDispatcher rd = request.getRequestDispatcher("userHome.jsp");
 

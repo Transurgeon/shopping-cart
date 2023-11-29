@@ -182,4 +182,24 @@ public class SellerServiceImpl implements SellerService {
 		return lowUnitsProducts;
 	}
 
+	@Override
+	public void setDiscountToProduct(String prodId) {
+		Connection con = DBUtil.provideConnection();
+		PreparedStatement ps = null;
+		try { 
+			ps = con.prepareStatement("update product set isDiscounted=? where pid=?");
+			ps.setInt(1, 1);
+			ps.setString(2, prodId);
+			
+			ps.executeUpdate();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBUtil.closeConnection(con);
+		DBUtil.closeConnection(ps);
+		
+	}
+
 }

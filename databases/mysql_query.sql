@@ -82,6 +82,43 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
+-- ----------------------------------------------
+-- Table interest 
+-- ------------------------------------------------
+DROP TABLE IF EXISTS `shopping-cart`.`interest` ;
+CREATE TABLE IF NOT EXISTS `shopping-cart`.`interest` (
+  `id` INT AUTO_INCREMENT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `name_idx` (`id` ASC) VISIBLE
+ )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+DROP TABLE IF EXISTS `shopping-cart`.`student_interest` ;
+CREATE TABLE IF NOT EXISTS `shopping-cart`.`student_interest` (
+  `concordiaId` VARCHAR(45) NOT NULL,
+  `interestId` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`concordiaId`, `interestId`),
+  INDEX `name_idx` (`concordiaId` ASC) VISIBLE,
+   CONSTRAINT `studentid`
+    FOREIGN KEY (`concordiaId`)
+    REFERENCES `shopping-cart`.`student` (`concordiaId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `interestid`
+    FOREIGN KEY (`interestId`)
+    REFERENCES `shopping-cart`.`interest` (`name`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+
 
 -- -----------------------------------------------------
 -- Table `shopping-cart`.`orders`
@@ -295,3 +332,22 @@ USE `shopping-cart`;
 INSERT INTO `shopping-cart`.`usercart` (`concordiaId`, `prodid`, `quantity`) VALUES ('40112492', 'P20230423082243', 2);
 
 COMMIT;
+
+START TRANSACTION;
+USE `shopping-cart`;
+INSERT INTO `shopping-cart`.`interest`(`name`) VALUES ('mobile');
+INSERT INTO `shopping-cart`.`interest`(`name`) VALUES ('tv');
+INSERT INTO `shopping-cart`.`interest`(`name`) VALUES ('laptop');
+INSERT INTO `shopping-cart`.`interest`(`name`) VALUES ('camera');
+INSERT INTO `shopping-cart`.`interest`(`name`) VALUES ('tablet');
+INSERT INTO `shopping-cart`.`interest`(`name`) VALUES ('cooler');
+INSERT INTO `shopping-cart`.`interest`(`name`) VALUES ('fan');
+INSERT INTO `shopping-cart`.`interest`(`name`) VALUES ('textbook');
+INSERT INTO `shopping-cart`.`interest`(`name`) VALUES ('calculator');
+COMMIT; 
+
+START TRANSACTION;
+USE `shopping-cart`;
+INSERT INTO `shopping-cart`.`student_interest`(`concordiaId`,`interestId`) VALUES ('40112492', 'laptop');
+INSERT INTO `shopping-cart`.`student_interest`(`concordiaId`,`interestId`) VALUES ('40112492', 'textbook');
+COMMIT; 
