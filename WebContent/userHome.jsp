@@ -45,7 +45,18 @@
 	String isDiscount = request.getParameter("discount");
 	String isUsed = request.getParameter("used");
 	String title = "All Products";
-	if ((priceFrom != null && priceTo != null) && (!priceFrom.isEmpty() && !priceTo.isEmpty())) {
+	String mostPopular = request.getParameter("mostPopular");
+	String leastPopular = request.getParameter("leastPopular");
+	String message = "All Products";
+	if (mostPopular != null && mostPopular.equals("on")) {
+		products = prodDao.getMostPopularProducts();
+		message = "Showing most popular products of the shopping cart";
+	}
+	else if (leastPopular != null && leastPopular.equals("on")) {
+		products = prodDao.getLeastPopularProducts();
+		message = "Showing least popular products of the shopping cart";
+	}
+	else if ((priceFrom != null || priceTo != null) && (!priceFrom.isEmpty() && !priceTo.isEmpty())) {
 		products = prodDao.getPriceFilteredProducts(priceFrom, priceTo);
 		title = "Showing price filter";
 	}
@@ -119,8 +130,10 @@
 					<p class="productinfo"><%=description%>..
 					</p>
 					<p class="price">
-						Rs
-						<%=product.getProdPrice()%>
+						<%=product.getProdPrice()%> $
+					</p>
+					<p class="unitSold">
+						units sold: <%=product.getUnitSold()%>
 					</p>
 					<form method="post">
 						<%
