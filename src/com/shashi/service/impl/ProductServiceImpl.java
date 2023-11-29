@@ -257,6 +257,7 @@ public class ProductServiceImpl implements ProductService {
 				product.setDiscounted(rs.getBoolean(9));
 				product.setUsed(rs.getBoolean(10));
 				product.setSeller(rs.getString(11));
+				product.setUnitSold(rs.getInt(12));
 
 				products.add(product);
 

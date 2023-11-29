@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.shashi.beans.InterestBean;
 import com.shashi.beans.ProductBean;
@@ -131,6 +132,47 @@ public class InterestServiceImpl implements InterestService {
 		DBUtil.closeConnection(rs);
 
 		return false;
+	}
+	
+	private ProductBean getMostPopularProduct(List<ProductBean> products) {
+		int mostUnitsSold = 0;
+		ProductBean mostPopularProduct = null;
+		for(ProductBean product : products) {
+			if(product.getUnitSold() >= mostUnitsSold) {
+				mostUnitsSold = product.getUnitSold();
+				mostPopularProduct = product;
+			}
+		}
+		return mostPopularProduct;
+	}
+
+	@Override
+	public String applyDiscountOnInterests(String concordiaId) {
+		SellerServiceImpl sellerService = new SellerServiceImpl();
+		// get all interest of student
+		List<InterestBean> interests = getAllStudentInterests(concordiaId);
+		ProductServiceImpl productDao = new ProductServiceImpl();
+		// get all product of one specific type
+		for(InterestBean interest: interests) {
+			List<ProductBean> interestProducts = productDao.getAllProductsByType(interest.getName());
+			//choose most popular to add a random discount between 0-50%
+			ProductBean mostPopularProduct = getMostPopularProduct(interestProducts);
+			// query the change to put isDiscount + the percentage
+			if(mostPopularProduct.isDiscounted()) continue; //already a discount dont touch it
+			
+			sellerService.setDiscountToProduct(mostPopularProduct.getProdId());
+			Random random = new Random();
+			int randomDiscount = random.nextInt(46) + 5;
+			sellerService.addDiscountToProduct(mostPopularProduct.getProdId(), randomDiscount);
+		}
+		
+		
+		
+	
+		//add to a list
+		// query the change to put isDiscount + the percentage
+		
+		return "success";
 	}
 
 }

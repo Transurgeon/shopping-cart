@@ -60,6 +60,10 @@ public class AddInterestsToStudentSrv  extends HttpServlet{
 					status = interestServiceImpl.addInterestToStudent(concordiaId, interest);
 			}
 		}
+		
+		//determine discounts and used product based on user interest
+		InterestServiceImpl interestService = new InterestServiceImpl();
+		interestService.applyDiscountOnInterests(concordiaId);
 
 
 		RequestDispatcher rd = request.getRequestDispatcher("userHome.jsp?message=" + status);
