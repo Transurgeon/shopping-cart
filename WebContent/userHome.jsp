@@ -26,7 +26,7 @@
 	String concordiaId = (String) session.getAttribute("concordiaId");
 	
 	String message = request.getParameter("message");
-	if(message == null) message = "";
+	if (message == null) message = "";
 
 	boolean isValidUser = true;
 
@@ -47,7 +47,7 @@
 	String title = "All Products";
 	String mostPopular = request.getParameter("mostPopular");
 	String leastPopular = request.getParameter("leastPopular");
-	String message = "All Products";
+    message = "All Products";
 	if (mostPopular != null && mostPopular.equals("on")) {
 		products = prodDao.getMostPopularProducts();
 		message = "Showing most popular products of the shopping cart";
@@ -79,12 +79,10 @@
 		title = "No items found for the search '" + (search != null ? search : type) + "'";
 		products = prodDao.getAllProducts();
 	}
-%>
-
-
+	%>
 
 	<jsp:include page="header.jsp" />
-
+	<jsp:include page="search.jsp" />
 	<div class="text-center"
 		style="color: black; font-size: 14px; font-weight: bold;"><%=title%></div>
 	<div class="text-center"
@@ -162,15 +160,11 @@
 					<br />
 				</div>
 			</div>
-
 			<%
 			}
 			%>
-
 		</div>
 	</div>
-
 	<%@ include file="footer.html"%>
-
 </body>
 </html>

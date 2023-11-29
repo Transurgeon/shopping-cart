@@ -77,6 +77,7 @@
 	%>
 
 	<jsp:include page="header.jsp" />
+	<jsp:include page="search.jsp" />
 	<div class="text-center"
 		style="color: black; font-size: 14px; font-weight: bold;"><%=message%></div>
 
