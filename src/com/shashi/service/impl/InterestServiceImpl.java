@@ -174,5 +174,55 @@ public class InterestServiceImpl implements InterestService {
 		
 		return "success";
 	}
+	
+	private ProductBean getRandomProduct(List<ProductBean> products) {
+		Random random = new Random();
+		int randomIndex = random.nextInt(products.size());
+		return products.get(randomIndex);
+	}
+
+	@Override
+	public void applyUsedOnInterests(String concordiaId) {
+		// get all interest of student
+		List<InterestBean> interests = getAllStudentInterests(concordiaId);
+		ProductServiceImpl productDao = new ProductServiceImpl();
+		// get all product of one specific type
+		for(InterestBean interest: interests) {
+			List<ProductBean> interestProducts = productDao.getAllProductsByType(interest.getName());
+			//choose one random product to be used
+			ProductBean usedProduct = getRandomProduct(interestProducts);
+			// query the change to put isDiscount + the percentage
+			if(usedProduct.isUsed()) continue; //already a used dont touch it
+			
+			//knock off the price?
+			double usedPrice = usedProduct.getProdPrice();
+			
+			setUsedToProduct(usedProduct.getProdId(), (0.5 * usedPrice)); //set the product to used
+			
+			
+			
+		}
+		
+	}
+	
+	private void setUsedToProduct(String prodId, Double price) {
+		Connection con = DBUtil.provideConnection();
+		PreparedStatement ps = null;
+		try { 
+			ps = con.prepareStatement("update product set isUsed=?, pprice=? where pid=?");
+			ps.setInt(1, 1);
+			ps.setDouble(2, price);
+			ps.setString(3, prodId);
+			
+			ps.executeUpdate();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBUtil.closeConnection(con);
+		DBUtil.closeConnection(ps);
+		
+	}
 
 }

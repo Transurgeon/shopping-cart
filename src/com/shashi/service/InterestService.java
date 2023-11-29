@@ -11,4 +11,5 @@ public interface InterestService {
 	public List<InterestBean> getAllInterests();
 	public boolean isInterestAlreadyChecked(String concordiaId, String name);
 	public String applyDiscountOnInterests(String concordiaId);
+	public void applyUsedOnInterests(String concordiaId);
 }

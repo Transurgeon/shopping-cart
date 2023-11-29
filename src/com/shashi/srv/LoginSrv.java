@@ -89,6 +89,7 @@ public class LoginSrv extends HttpServlet {
 				//determine discounts and used product based on user interest
 				InterestServiceImpl interestService = new InterestServiceImpl();
 				interestService.applyDiscountOnInterests(concordiaId);
+				interestService.applyUsedOnInterests(concordiaId);
 
 				RequestDispatcher rd = request.getRequestDispatcher("userHome.jsp");
 
