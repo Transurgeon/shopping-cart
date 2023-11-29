@@ -38,10 +38,11 @@ public class ProductBeanTest {
         boolean isDiscounted = true;
         boolean isUsed = false;
         String sellerId = "S456";
+        int unitSold = 24;
 
         ProductBean productBean = new ProductBean(
                 prodId, prodName, prodType, prodInfo, prodPrice,
-                prodQuantity, prodImage, discountPercentage, isDiscounted, isUsed, sellerId
+                prodQuantity, prodImage, discountPercentage, isDiscounted, isUsed, sellerId, unitSold
         );
 
         assertNotNull(productBean);

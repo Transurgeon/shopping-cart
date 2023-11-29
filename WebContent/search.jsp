@@ -37,6 +37,14 @@
           <input type="checkbox" name="used" style="margin-right: 5px;"> Used
         </label>
       </div>
+      <div style="margin-top: 10px;">
+        <label style="color: black; margin-right: 5px;">
+          <input type="checkbox" name="mostPopular" style="margin-right: 5px;"> Most Popular
+        </label>
+        <label style="color: black; margin-right: 5px;">
+          <input type="checkbox" name="leastPopular" style="margin-right: 5px;"> Least Popular
+        </label>
+      </div>
     </div>
     <div class="input-group" style="display: flex; align-items: center;">
       <input type="text" class="form-control" size="50" name="search" placeholder="Search Items" required>
