@@ -20,17 +20,17 @@ USE `shopping-cart` ;
 -- ---------------------------------------------------
 DROP TABLE IF EXISTS `shopping-cart`.`seller` ;
 CREATE TABLE IF NOT EXISTS `shopping-cart`.`seller` (
-  `email` VARCHAR(60) NOT NULL,
-  `name` VARCHAR(30) NULL DEFAULT NULL,
-  `mobile` BIGINT NULL DEFAULT NULL,
-  `address` VARCHAR(250) NULL DEFAULT NULL,
-  `pincode` INT NULL DEFAULT NULL,
-  `password` VARCHAR(20) NULL DEFAULT NULL,
-  `companyName` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`companyName`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    `email` VARCHAR(60) NOT NULL,
+    `name` VARCHAR(30) NULL DEFAULT NULL,
+    `mobile` BIGINT NULL DEFAULT NULL,
+    `address` VARCHAR(250) NULL DEFAULT NULL,
+    `pincode` INT NULL DEFAULT NULL,
+    `password` VARCHAR(20) NULL DEFAULT NULL,
+    `companyName` VARCHAR(20) NOT NULL,
+    PRIMARY KEY (`companyName`))
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 ---------------------------------------------------
@@ -38,19 +38,19 @@ COLLATE = utf8mb4_0900_ai_ci;
 ---------------------------------------------------
 DROP TABLE IF EXISTS `shopping-cart`.`student` ;
 CREATE TABLE IF NOT EXISTS `shopping-cart`.`student` (
-  `email` VARCHAR(60) NOT NULL,
-  `name` VARCHAR(30) NULL DEFAULT NULL,
-  `mobile` BIGINT NULL DEFAULT NULL,
-  `address` VARCHAR(250) NULL DEFAULT NULL,
-  `pincode` INT NULL DEFAULT NULL,
-  `password` VARCHAR(20) NULL DEFAULT NULL,
-  `firstName` VARCHAR(20) NULL DEFAULT NULL,
-  `lastName` VARCHAR(20) NULL DEFAULT NULL,
-  `concordiaId` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`concordiaId`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    `email` VARCHAR(60) NOT NULL,
+    `name` VARCHAR(30) NULL DEFAULT NULL,
+    `mobile` BIGINT NULL DEFAULT NULL,
+    `address` VARCHAR(250) NULL DEFAULT NULL,
+    `pincode` INT NULL DEFAULT NULL,
+    `password` VARCHAR(20) NULL DEFAULT NULL,
+    `firstName` VARCHAR(20) NULL DEFAULT NULL,
+    `lastName` VARCHAR(20) NULL DEFAULT NULL,
+    `concordiaId` VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`concordiaId`))
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -59,63 +59,62 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS `shopping-cart`.`product` ;
 
 CREATE TABLE IF NOT EXISTS `shopping-cart`.`product` (
-  `pid` VARCHAR(45) NOT NULL,
-  `pname` VARCHAR(100) NULL DEFAULT NULL,
-  `ptype` VARCHAR(20) NULL DEFAULT NULL,
-  `pinfo` VARCHAR(350) NULL DEFAULT NULL,
-  `pprice` DECIMAL(12,2) NULL DEFAULT NULL,
-  `pquantity` INT NULL DEFAULT NULL,
-  `image` LONGBLOB NULL DEFAULT NULL,
-  `discountPercentage` DECIMAL(12,2) NULL DEFAULT NULL,
-  `isDiscounted` BOOLEAN NULL DEFAULT NULL,
-  `isUsed` BOOLEAN NULL DEFAULT NULL,
-  `sellerId` VARCHAR(45) NULL DEFAULT NULL,
-  `unitSold` INT NULL DEFAULT NULL,
-  PRIMARY KEY (`pid`),
-  INDEX `sellerId_idx` (`sellerId` ASC) VISIBLE,
-  CONSTRAINT `sellerId`
+    `pid` VARCHAR(45) NOT NULL,
+    `pname` VARCHAR(100) NULL DEFAULT NULL,
+    `ptype` VARCHAR(20) NULL DEFAULT NULL,
+    `pinfo` VARCHAR(350) NULL DEFAULT NULL,
+    `pprice` DECIMAL(12,2) NULL DEFAULT NULL,
+    `pquantity` INT NULL DEFAULT NULL,
+    `image` LONGBLOB NULL DEFAULT NULL,
+    `discountPercentage` DECIMAL(12,2) NULL DEFAULT NULL,
+    `isDiscounted` BOOLEAN NULL DEFAULT NULL,
+    `isUsed` BOOLEAN NULL DEFAULT NULL,
+    `sellerId` VARCHAR(45) NULL DEFAULT NULL,
+    `unitSold` INT NULL DEFAULT NULL,
+    PRIMARY KEY (`pid`),
+    INDEX `sellerId_idx` (`sellerId` ASC) VISIBLE,
+    CONSTRAINT `sellerId`
     FOREIGN KEY (`sellerId`)
     REFERENCES `shopping-cart`.`seller` (`companyName`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 -- ----------------------------------------------
--- Table interest 
+-- Table interest
 -- ------------------------------------------------
 DROP TABLE IF EXISTS `shopping-cart`.`interest` ;
 CREATE TABLE IF NOT EXISTS `shopping-cart`.`interest` (
-  `id` INT AUTO_INCREMENT NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `name_idx` (`id` ASC) VISIBLE
- )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    `name` VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`name`),
+    INDEX `name_idx` (`name` ASC) VISIBLE
+    )
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 DROP TABLE IF EXISTS `shopping-cart`.`student_interest` ;
 CREATE TABLE IF NOT EXISTS `shopping-cart`.`student_interest` (
-  `concordiaId` VARCHAR(45) NOT NULL,
-  `interestId` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`concordiaId`, `interestId`),
-  INDEX `name_idx` (`concordiaId` ASC) VISIBLE,
-   CONSTRAINT `studentid`
+    `concordiaId` VARCHAR(45) NOT NULL,
+    `interestId` VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`concordiaId`, `interestId`),
+    INDEX `name_idx` (`concordiaId` ASC) VISIBLE,
+    CONSTRAINT `studentid`
     FOREIGN KEY (`concordiaId`)
     REFERENCES `shopping-cart`.`student` (`concordiaId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `interestid`
+    CONSTRAINT `interestid`
     FOREIGN KEY (`interestId`)
     REFERENCES `shopping-cart`.`interest` (`name`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 
@@ -126,34 +125,34 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS `shopping-cart`.`orders` ;
 
 CREATE TABLE IF NOT EXISTS `shopping-cart`.`orders` (
-  `orderid` VARCHAR(45) NOT NULL,
-  `prodid` VARCHAR(45) NOT NULL,
-  `quantity` INT NULL DEFAULT NULL,
-  `amount` DECIMAL(10,2) NULL DEFAULT NULL,
-  `shipped` INT NOT NULL DEFAULT 0,
-  `sellerId` VARCHAR(45) NOT NULL,
-  `concordiaId` VARCHAR(45) NOT NULL,
-  `status` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`orderid`, `prodid`),
-  INDEX `productid_idx` (`prodid` ASC) VISIBLE,
-  CONSTRAINT `productid`
+    `orderid` VARCHAR(45) NOT NULL,
+    `prodid` VARCHAR(45) NOT NULL,
+    `quantity` INT NULL DEFAULT NULL,
+    `amount` DECIMAL(10,2) NULL DEFAULT NULL,
+    `shipped` INT NOT NULL DEFAULT 0,
+    `sellerId` VARCHAR(45) NOT NULL,
+    `concordiaId` VARCHAR(45) NOT NULL,
+    `status` VARCHAR(45) NULL DEFAULT NULL,
+    PRIMARY KEY (`orderid`, `prodid`),
+    INDEX `productid_idx` (`prodid` ASC) VISIBLE,
+    CONSTRAINT `productid`
     FOREIGN KEY (`prodid`)
     REFERENCES `shopping-cart`.`product` (`pid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-CONSTRAINT `orderSellerId`
-	FOREIGN KEY (`sellerId`)
+    CONSTRAINT `orderSellerId`
+    FOREIGN KEY (`sellerId`)
     REFERENCES `shopping-cart`.`seller` (`companyName`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-CONSTRAINT `orderStudentId`
-	FOREIGN KEY (`concordiaId`)
+    CONSTRAINT `orderStudentId`
+    FOREIGN KEY (`concordiaId`)
     REFERENCES `shopping-cart`.`student` (`concordiaId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -169,25 +168,25 @@ DROP TABLE IF EXISTS `shopping-cart`.`user` ;
 DROP TABLE IF EXISTS `shopping-cart`.`transactions` ;
 
 CREATE TABLE IF NOT EXISTS `shopping-cart`.`transactions` (
-  `transid` VARCHAR(45) NOT NULL,
-  `concordiaId` VARCHAR(60) NULL DEFAULT NULL,
-  `time` DATETIME NULL DEFAULT NULL,
-  `amount` DECIMAL(10,2) NULL DEFAULT NULL,
-  PRIMARY KEY (`transid`),
-  INDEX `truserid_idx` (`concordiaId` ASC) VISIBLE,
-  CONSTRAINT `truserid`
+    `transid` VARCHAR(45) NOT NULL,
+    `concordiaId` VARCHAR(60) NULL DEFAULT NULL,
+    `time` DATETIME NULL DEFAULT NULL,
+    `amount` DECIMAL(10,2) NULL DEFAULT NULL,
+    PRIMARY KEY (`transid`),
+    INDEX `truserid_idx` (`concordiaId` ASC) VISIBLE,
+    CONSTRAINT `truserid`
     FOREIGN KEY (`concordiaId`)
     REFERENCES `shopping-cart`.`student` (`concordiaId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `transorderid`
+    CONSTRAINT `transorderid`
     FOREIGN KEY (`transid`)
     REFERENCES `shopping-cart`.`orders` (`orderid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -196,24 +195,24 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS `shopping-cart`.`user_demand` ;
 
 CREATE TABLE IF NOT EXISTS `shopping-cart`.`user_demand` (
-  `concordiaId` VARCHAR(60) NOT NULL,
-  `prodid` VARCHAR(45) NOT NULL,
-  `quantity` INT NULL DEFAULT NULL,
-  PRIMARY KEY (`concordiaId`, `prodid`),
-  INDEX `prodid_idx` (`prodid` ASC) VISIBLE,
-  CONSTRAINT `userdemailemail`
+    `concordiaId` VARCHAR(60) NOT NULL,
+    `prodid` VARCHAR(45) NOT NULL,
+    `quantity` INT NULL DEFAULT NULL,
+    PRIMARY KEY (`concordiaId`, `prodid`),
+    INDEX `prodid_idx` (`prodid` ASC) VISIBLE,
+    CONSTRAINT `userdemailemail`
     FOREIGN KEY (`concordiaId`)
     REFERENCES `shopping-cart`.`student` (`concordiaId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `prodid`
+    CONSTRAINT `prodid`
     FOREIGN KEY (`prodid`)
     REFERENCES `shopping-cart`.`product` (`pid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -222,24 +221,24 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS `shopping-cart`.`usercart` ;
 
 CREATE TABLE IF NOT EXISTS `shopping-cart`.`usercart` (
-  `concordiaId` VARCHAR(60) NULL DEFAULT NULL,
-  `prodid` VARCHAR(45) NULL DEFAULT NULL,
-  `quantity` INT NULL DEFAULT NULL,
-  INDEX `concordiaId_idx` (`concordiaId` ASC) VISIBLE,
-  INDEX `prodidcart_idx` (`prodid` ASC) VISIBLE,
-  CONSTRAINT `useremail`
+    `concordiaId` VARCHAR(60) NULL DEFAULT NULL,
+    `prodid` VARCHAR(45) NULL DEFAULT NULL,
+    `quantity` INT NULL DEFAULT NULL,
+    INDEX `concordiaId_idx` (`concordiaId` ASC) VISIBLE,
+    INDEX `prodidcart_idx` (`prodid` ASC) VISIBLE,
+    CONSTRAINT `useremail`
     FOREIGN KEY (`concordiaId`)
     REFERENCES `shopping-cart`.`student` (`concordiaId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `prodidcart`
+    CONSTRAINT `prodidcart`
     FOREIGN KEY (`prodid`)
     REFERENCES `shopping-cart`.`product` (`pid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
@@ -253,7 +252,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 START TRANSACTION;
 USE `shopping-cart`;
 INSERT INTO `shopping-cart`.`seller`(`email`, `name`, `mobile`, `address`, `pincode`, `password`, `companyName`) VALUES ('123@gmail.com', 'seller1', 123, '123 rue', '1111', 'test123', 'huawei');
-COMMIT; 
+COMMIT;
 
 -- ----------------------------------------------------
 -- Data for table `shopping-cart`.`student`
@@ -261,7 +260,7 @@ COMMIT;
 START TRANSACTION;
 USE `shopping-cart`;
 INSERT INTO `shopping-cart`.`student`(`email`, `name`, `mobile`, `address`, `pincode`, `password`, `firstName`, `lastName`, `concordiaId`) VALUES ('stud@gmail.com', 'student1', 111, '1234 rue','123', 'test1234', 'cedric', 'paradis', '40112492');
-COMMIT; 
+COMMIT;
 -- -----------------------------------------------------
 -- Data for table `shopping-cart`.`product`
 -- -----------------------------------------------------
@@ -344,10 +343,10 @@ INSERT INTO `shopping-cart`.`interest`(`name`) VALUES ('cooler');
 INSERT INTO `shopping-cart`.`interest`(`name`) VALUES ('fan');
 INSERT INTO `shopping-cart`.`interest`(`name`) VALUES ('textbook');
 INSERT INTO `shopping-cart`.`interest`(`name`) VALUES ('calculator');
-COMMIT; 
+COMMIT;
 
 START TRANSACTION;
 USE `shopping-cart`;
 INSERT INTO `shopping-cart`.`student_interest`(`concordiaId`,`interestId`) VALUES ('40112492', 'laptop');
 INSERT INTO `shopping-cart`.`student_interest`(`concordiaId`,`interestId`) VALUES ('40112492', 'textbook');
-COMMIT; 
+COMMIT;
