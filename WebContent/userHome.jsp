@@ -26,12 +26,11 @@
 	String concordiaId = (String) session.getAttribute("concordiaId");
 	
 	String message = request.getParameter("message");
-	if(message == null) message = "";
+	if (message == null) message = "";
 
 	boolean isValidUser = true;
 
 	if (userType == null || userName == null || password == null || !userType.equals("customer")) {
-
 		isValidUser = false;
 	}
 
@@ -44,10 +43,9 @@
 	String priceTo = request.getParameter("priceTo");
 	String isDiscount = request.getParameter("discount");
 	String isUsed = request.getParameter("used");
-	String title = "All Products";
 	String mostPopular = request.getParameter("mostPopular");
 	String leastPopular = request.getParameter("leastPopular");
-	String message = "All Products";
+    message = "All Products";
 	if (mostPopular != null && mostPopular.equals("on")) {
 		products = prodDao.getMostPopularProducts();
 		message = "Showing most popular products of the shopping cart";
@@ -58,39 +56,33 @@
 	}
 	else if ((priceFrom != null || priceTo != null) && (!priceFrom.isEmpty() && !priceTo.isEmpty())) {
 		products = prodDao.getPriceFilteredProducts(priceFrom, priceTo);
-		title = "Showing price filter";
+		message = "Showing price filter";
 	}
 	else if (isDiscount != null || isUsed != null) {
 		products = prodDao.getUsedDiscountedProducts(isDiscount, isUsed);
-		title = "Showing discounted or used products";
+		message = "Showing discounted or used products";
 	}
 	else if (search != null) {
 		products = prodDao.searchAllProducts(search);
-		title = "Showing Results for '" + search + "'";
+		message = "Showing Results for '" + search + "'";
 	}
 	else if (type != null) {
 		products = prodDao.getAllProductsByType(type);
-		title = "Showing Results for '" + type + "'";
+		message = "Showing Results for '" + type + "'";
 	}
 	else {
 		products = prodDao.getAllProducts();
 	}
 	if (products.isEmpty()) {
-		title = "No items found for the search '" + (search != null ? search : type) + "'";
+		message = "No items found for the search '" + (search != null ? search : type) + "'";
 		products = prodDao.getAllProducts();
 	}
-%>
-
-
+	%>
 
 	<jsp:include page="header.jsp" />
-
-	<div class="text-center"
-		style="color: black; font-size: 14px; font-weight: bold;"><%=title%></div>
+	<jsp:include page="search.jsp" />
 	<div class="text-center"
 		style="color: green; font-size: 14px; font-weight: bold;"><%=message%></div>
-	<!-- <script>document.getElementById('mycart').innerHTML='<i data-count="20" class="fa fa-shopping-cart fa-3x icon-white badge" style="background-color:#333;margin:0px;padding:0px; margin-top:5px;"></i>'</script>
- -->
 	<!-- Start of Product Items List -->
 	<div class="container" style="padding-top: 5%">
 		<div class="row text-center">
@@ -98,9 +90,7 @@
 			<%
 			for (ProductBean product : products) {
 				int cartQty = new CartServiceImpl().getCartItemCount(userName, product.getProdId());
-			
 			%>
-
 			<div class="col-sm-4" style='height: 350px;'>
 				<div class="thumbnail">
 					<div style="width: 100%; position: relative; margin-top: 2px; margin-left: 2px;">
@@ -162,15 +152,11 @@
 					<br />
 				</div>
 			</div>
-
 			<%
 			}
 			%>
-
 		</div>
 	</div>
-
 	<%@ include file="footer.html"%>
-
 </body>
 </html>
