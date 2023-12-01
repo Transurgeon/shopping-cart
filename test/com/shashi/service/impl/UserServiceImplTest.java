@@ -1,11 +1,16 @@
-package com.shashi.service;
+package com.shashi.service.impl;
 
-import com.shashi.service.impl.UserServiceImpl;
+import com.shashi.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserServiceTest {
+class UserServiceImplTest {
+
+    @BeforeEach
+    void setUp() {
+    }
 
     @Test
     void registerStudentUser() {
@@ -25,6 +30,22 @@ class UserServiceTest {
 
     @Test
     void getStudentDetails() {
+    }
+
+    @Test
+    void getFName() {
+    }
+
+    @Test
+    void getUserAddr() {
+    }
+
+    @Test
+    void registerSellerUser() {
+    }
+
+    @Test
+    void isRegisteredSeller() {
     }
 
     @Test

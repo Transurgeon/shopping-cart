@@ -67,6 +67,34 @@ class ProductServiceImplTest {
     }
 
     @Test
+    void testGetPriceFilteredProducts() {
+        List<ProductBean> result = productService.getPriceFilteredProducts("10", "5000");
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+    }
+
+    @Test
+    void testGetUsedDiscountedProducts() {
+        List<ProductBean> result = productService.getUsedDiscountedProducts("on", null);
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+    }
+
+    @Test
+    void testGetMostPopularProducts() {
+        List<ProductBean> result = productService.getMostPopularProducts();
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+    }
+
+    @Test
+    void testGetLeastPopularProducts() {
+        List<ProductBean> result = productService.getLeastPopularProducts();
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+    }
+
+    @Test
     void testGetImage() {
         // Test data
         String prodId = "P20230423084144";
